@@ -1,10 +1,12 @@
-import React from 'react'
-import classes from './ButtonInfor.module.scss'
+import React from "react";
+import classes from "./ButtonInfor.module.scss";
 
-const ButtonInfor = ({children}) => {
+const ButtonInfor = ({ children, type, disabled }) => {
   return (
-    <button className={classes.container}>{children}</button>
-  )
-}
+    <button disabled={disabled} type={type} className={classes.container}>
+      {children}
+    </button>
+  );
+};
 
-export default ButtonInfor
+export default ButtonInfor;

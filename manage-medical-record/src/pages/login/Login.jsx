@@ -6,10 +6,13 @@ import classes from "./Login.module.scss";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Register from "../register/Register";
-import { redirect } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../services/axios/axios.service";
+import { Alert } from "@mui/material";
+import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [openRegister, setOpenRegister] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,21 +24,113 @@ const Login = () => {
       .required("Required"),
     password: Yup.string().required("Required"),
   });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try{
-      const res = await axios.post("/server/login", { username, password });
-      // localStorage.setItem("currentUser", JSON.stringify(res.data));
-      // redirect("/");
-      console.log(res.data);
-    } catch(err){
+
+  const login = async (values) => {
+    try {
+      const res = await axios.post("/user/login", {
+        username: values.mabhyt,
+        password: values.password,
+      });
+
+      if (res.data.result.isValid) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data?.result?.user || "")
+        );
+        navigate("/");
+      } else {
+        setError("Your username or password is incorrect !");
+      }
+    } catch (err) {
       setError(err);
       console.log(err);
     }
   };
+
   return (
     <div className={classes.loginScreen}>
-      <div className={classes.container}>
+      <IntroductionForm>
+        <div className={classes.loginDetail}>
+          <h2>Login</h2>
+          {error && <Alert severity="error">{error}</Alert>}
+          <Formik
+            initialValues={{ mabhyt: "", password: "" }}
+            validationSchema={LoginSchema}
+            validate={(values) => {
+              const errors = {};
+              if (!values.mabhyt) {
+                errors.mabhyt = "Required";
+              } else if (!/^[[A-Z]+[0-9]{3,16}$/i.test(values.mabhyt)) {
+                errors.mabhyt = "Invalid health insurance code syntax";
+              }
+              return errors;
+            }}
+            onSubmit={login}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <h6>{errors.mabhyt && touched.mabhyt && errors.mabhyt}</h6>
+                <input
+                  className={classes.inputLogin}
+                  type="text"
+                  name="mabhyt"
+                  placeholder="Health insurance code"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.mabhyt}
+                />
+                <h6>
+                  {errors.password && touched.password && errors.password}
+                </h6>
+                <input
+                  className={classes.inputLogin}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
+                <div className={classes.loginRemember}>
+                  <div className={classes.loginRememberElement}>
+                    <input
+                      className={classes.checkboxRemember}
+                      type="checkbox"
+                      value=""
+                      id="remembered"
+                      defaultChecked={true}
+                    />
+                    <span>Remember me</span>
+                  </div>
+                  <div>
+                    <span className={classes.forgotPassword}>
+                      Forgot password?
+                    </span>
+                  </div>
+                </div>
+                <div className={classes.buttonInfor}>
+                  <ButtonInfor type="submit" disabled={isSubmitting}>
+                    Login
+                  </ButtonInfor>
+                </div>
+                <div className={classes.registerAccount}>
+                  <p>{`Don't have an account?`}</p>
+                  <Link to="/register">Register</Link>
+                </div>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </IntroductionForm>
+      {/* <div className={classes.container}>
         <Grid container spacing={2}>
           <Grid item sm={12} md={6} xl={6}>
             <div className={classes.left}>
@@ -61,6 +156,8 @@ const Login = () => {
               {!openRegister ? (
                 <div className={classes.loginDetail}>
                   <h2>Login</h2>
+                  {error && <Alert severity="error">{error}</Alert>}
+
                   <Formik
                     initialValues={{ mabhyt: "", password: "" }}
                     validationSchema={LoginSchema}
@@ -74,19 +171,20 @@ const Login = () => {
                       return errors;
                     }}
                     onSubmit={(values, { setSubmitting }) => {
-                      setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                      }, 400);
+                      login();
+                      // setTimeout(() => {
+                      //   alert(JSON.stringify(values, null, 2));
+                      //   setSubmitting(false);
+                      // }, 400);
                     }}
                   >
                     {({
                       values,
                       errors,
                       touched,
-                      // handleChange:(e)=>setUsername(e.target.value),
+                      handleChange,
                       handleBlur,
-                      // handleSubmit,
+                      handleSubmit,
                       isSubmitting,
                     }) => (
                       <form onSubmit={handleSubmit}>
@@ -98,7 +196,7 @@ const Login = () => {
                           type="text"
                           name="mabhyt"
                           placeholder="Health insurance code"
-                          onChange={(e) => setUsername(e.target.value)}
+                          onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.mabhyt}
                         />
@@ -112,7 +210,7 @@ const Login = () => {
                           type="password"
                           name="password"
                           placeholder="Password"
-                          onChange={(e) => setUsername(e.target.value)}
+                          onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.password}
                         />
@@ -154,7 +252,7 @@ const Login = () => {
             </div>
           </Grid>
         </Grid>
-      </div>
+      </div> */}
     </div>
   );
 };
