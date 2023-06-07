@@ -40,7 +40,7 @@
         cursor: pointer;
 
         &:hover {
-          color: #4fd5d6;
+          color: red;
         }
       }
     }
@@ -51,7 +51,9 @@
 
     .registerAccount {
       display: flex;
-      span {
+      .registerLink {
+        text-decoration: none;
+        color: #400d12;
         cursor: pointer;
         margin-left: 5px;
         &:hover {

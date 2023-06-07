@@ -200,7 +200,7 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" }, backgroundColor:'red' }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }}}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -229,7 +229,7 @@ export default function Navbar() {
               color="inherit"
             >
               {user ? (
-                <UserAvatar>{`${user?.first_name} ${user?.last_name}`}</UserAvatar>
+                <UserAvatar>{user?.name}</UserAvatar>
               ) : (
                 <Avatar src="/broken-image.jpg" />
               )}

@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     img {
       width: 100px;
       height: 100px;
@@ -20,34 +20,42 @@
     }
   }
   
-  .loginAccount {
-    display: flex;
-    padding: 10px;
-    justify-content: center;
-    span {
-      cursor: pointer;
-      margin-left: 5px;
-      &:hover {
-        color: red;
-      }
-    }
-  }
-
   .inline {
     display: flex;
     gap: 15px;
-
+    width: 100%;
     .formControl {
       width: 50%;
-  
+      
       .inputRegister {
         width: 100%;
         border: 1px solid #400d12;
         padding: 10px 70px 10px 5px;
         font-size: 16px;
         border-radius: 4px;
-        margin-bottom: 20px;
+        margin-top: 20px;
         height: 40px;
+      }
+      .errorRequired{
+        color: red;
+      }
+    }
+  }
+  .buttonInfor{
+    margin-top: 20px;
+  }
+  
+  .loginAccount {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    .loginLink {
+      color: #400d12;
+      text-decoration: none;
+      cursor: pointer;
+      margin-left: 5px;
+      &:hover {
+        color: red;
       }
     }
   }

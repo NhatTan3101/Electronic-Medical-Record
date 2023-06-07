@@ -1,11 +1,12 @@
 import Grid from "@mui/material/Grid";
 import { Formik } from "formik";
 import React, { useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
 import * as Yup from "yup";
 import ButtonInfor from "../../common/button/ButtonInfor";
 import classes from "./Register.module.scss";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
+import { Link } from "react-router-dom";
+import axios from "../../services/axios/axios.service";
 
 const Register = ({ setOpenRegister }) => {
   const [image, setImage] = useState(null);
@@ -22,6 +23,13 @@ const Register = ({ setOpenRegister }) => {
       setPasswordType("text");
     }
     setPasswordType("password");
+  };
+  const register = async (values) => {
+    try {
+      await axios.post("/user/register", values);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const RegisterSchema = Yup.object().shape({
@@ -65,12 +73,15 @@ const Register = ({ setOpenRegister }) => {
             }
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={
+            //   (values, { setSubmitting }) => {
+            //   setTimeout(() => {
+            //     alert(JSON.stringify(values, null, 2));
+            //     setSubmitting(false);
+            //   }, 400);
+            // }
+            register
+          }
         >
           {({
             values,
@@ -98,65 +109,7 @@ const Register = ({ setOpenRegister }) => {
                       onBlur={handleBlur}
                       value={values.mabhyt}
                     />
-                    <h6>{errors.mabhyt && touched.mabhyt && errors.mabhyt}</h6>
-                  </div>
-                  <div className={classes.formControl}>
-                    <input
-                      className={classes.inputRegister}
-                      type="text"
-                      name="idcardno"
-                      placeholder="Identity card number"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.idcardno}
-                    />
-                    <h6>
-                      {errors.idcardno && touched.idcardno && errors.idcardno}
-                    </h6>
-                  </div>
-                </div>
-                <div className={classes.inline}>
-                  <div className={classes.formControl}>
-                    <input
-                      className={classes.inputRegister}
-                      type="text"
-                      name="name"
-                      placeholder="Fullname"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.name}
-                    />
-                    <h6>{errors.name && touched.name && errors.name}</h6>
-                  </div>
-                  <div className={classes.formControl}>
-                    <input
-                      className={classes.inputRegister}
-                      type="text"
-                      name="address"
-                      placeholder="Address"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.address}
-                    />
-                    <h6>
-                      {errors.address && touched.address && errors.address}
-                    </h6>
-                  </div>
-                </div>
-                <div className={classes.inline}>
-                  <div className={classes.formControl}>
-                    <input
-                      className={classes.inputRegister}
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                    <h6>
-                      {errors.password && touched.password && errors.password}
-                    </h6>
+                    <h6 className={classes.errorRequired}>{errors.mabhyt && touched.mabhyt && errors.mabhyt}</h6>
                   </div>
                   <div className={classes.formControl}>
                     <select
@@ -173,12 +126,22 @@ const Register = ({ setOpenRegister }) => {
                       <option value="3">Male</option>
                       <option value="4">Other</option>
                     </select>
-                    <h6>
-                      {errors.password && touched.password && errors.password}
-                    </h6>
+                    <h6 className={classes.errorRequired}>{errors.gender && touched.gender && errors.gender}</h6>
                   </div>
                 </div>
                 <div className={classes.inline}>
+                  <div className={classes.formControl}>
+                    <input
+                      className={classes.inputRegister}
+                      type="text"
+                      name="name"
+                      placeholder="Fullname"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                    />
+                    <h6 className={classes.errorRequired}>{errors.name && touched.name && errors.name}</h6>
+                  </div>
                   <div className={classes.formControl}>
                     <input
                       className={classes.inputRegister}
@@ -189,10 +152,42 @@ const Register = ({ setOpenRegister }) => {
                       onBlur={handleBlur}
                       value={values.birthday}
                     />
-                    <h6>
+                    <h6 className={classes.errorRequired}>
                       {errors.birthday && touched.birthday && errors.birthday}
                     </h6>
                   </div>
+                </div>
+                <div className={classes.inline}>
+                  <div className={classes.formControl}>
+                    <input
+                      className={classes.inputRegister}
+                      type="text"
+                      name="idcardno"
+                      placeholder="Identity card number"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.idcardno}
+                    />
+                    <h6 className={classes.errorRequired}>
+                      {errors.idcardno && touched.idcardno && errors.idcardno}
+                    </h6>
+                  </div>
+                  <div className={classes.formControl}>
+                    <input
+                      className={classes.inputRegister}
+                      type="text"
+                      name="address"
+                      placeholder="Address"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.address}
+                    />
+                    <h6 className={classes.errorRequired}>
+                      {errors.address && touched.address && errors.address}
+                    </h6>
+                  </div>
+                </div>
+                <div className={classes.inline}>
                   <div className={classes.formControl}>
                     <input
                       className={classes.inputRegister}
@@ -203,8 +198,22 @@ const Register = ({ setOpenRegister }) => {
                       onBlur={handleBlur}
                       value={values.hometown}
                     />
-                    <h6>
+                    <h6 className={classes.errorRequired}>
                       {errors.hometown && touched.hometown && errors.hometown}
+                    </h6>
+                  </div>
+                  <div className={classes.formControl}>
+                    <input
+                      className={classes.inputRegister}
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    <h6 className={classes.errorRequired}>
+                      {errors.password && touched.password && errors.password}
                     </h6>
                   </div>
                 </div>
@@ -219,7 +228,7 @@ const Register = ({ setOpenRegister }) => {
                       onBlur={handleBlur}
                       value={values.nation}
                     />
-                    <h6>{errors.nation && touched.nation && errors.nation}</h6>
+                    <h6 className={classes.errorRequired}>{errors.nation && touched.nation && errors.nation}</h6>
                   </div>
                   <div className={classes.formControl}>
                     <input
@@ -234,7 +243,7 @@ const Register = ({ setOpenRegister }) => {
                     >
                       {/* { passwordType==="password"? <VisibilityIcon /> :<VisibilityOffIcon /> } */}
                     </input>
-                    <h6>
+                    <h6 className={classes.errorRequired}>
                       {errors.confirmpassword &&
                         touched.confirmpassword &&
                         errors.confirmpassword}
@@ -243,11 +252,15 @@ const Register = ({ setOpenRegister }) => {
                 </div>
               </Grid>
               <div className={classes.buttonInfor}>
-                <ButtonInfor type="submit">Create an account</ButtonInfor>
+                <ButtonInfor type="submit" disabled={isSubmitting}>
+                  Create an account
+                </ButtonInfor>
               </div>
               <div className={classes.loginAccount}>
                 <p>Have already an account?</p>
-                <span onClick={() => setOpenRegister(false)}>Login here</span>
+                <Link to="/login" className={classes.loginLink}>
+                  Login here
+                </Link>
               </div>
             </form>
           )}
