@@ -6,6 +6,7 @@ import Navbar from './components/navbar/Navbar';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import About from './pages/about/About';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,19 +20,19 @@ function App() {
     },
     {
       path: "/",
-      element: <div>
+      element: <div style={{height:'100%'}}>
         <Navbar />
         <Outlet />
         <Footer />
       </div>,
       children: [
         {
-          path: "home",
+          path: "",
           element: <Home />
         },
         {
           path: "about",
-          element: <div> about </div>
+          element: <About />
         }
       ]
     }

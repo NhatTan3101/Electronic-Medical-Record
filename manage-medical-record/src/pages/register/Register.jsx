@@ -37,7 +37,7 @@ const Register = ({ setOpenRegister }) => {
       .max(16, "Health insurance code syntax has 16 characters")
       .min(16, "Health insurance code syntax has 16 characters")
       .required("Required"),
-    idcardno: Yup.string().required("Required"),
+      phonenumber: Yup.string().required("Required"),
     name: Yup.string().required("Required"),
     address: Yup.string().required("Required"),
     birthday: Yup.string().required("Required"),
@@ -55,7 +55,7 @@ const Register = ({ setOpenRegister }) => {
           initialValues={{
             mabhyt: "",
             password: "",
-            idcardno: "",
+            phonenumber: "",
             name: "",
             address: "",
             birthday: "",
@@ -162,14 +162,14 @@ const Register = ({ setOpenRegister }) => {
                     <input
                       className={classes.inputRegister}
                       type="text"
-                      name="idcardno"
-                      placeholder="Identity card number"
+                      name="phonenumber"
+                      placeholder="Phone number"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.idcardno}
+                      value={values.phonenumber}
                     />
                     <h6 className={classes.errorRequired}>
-                      {errors.idcardno && touched.idcardno && errors.idcardno}
+                      {errors.phonenumber && touched.phonenumber && errors.phonenumber}
                     </h6>
                   </div>
                   <div className={classes.formControl}>

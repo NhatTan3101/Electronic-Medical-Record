@@ -1,15 +1,12 @@
-import React, { useState } from "react";
-import Grid from "@mui/material/Grid";
-import ButtonInfor from "../../common/button/ButtonInfor";
-import { DoctorIcon } from "../../components/images/index";
-import classes from "./Login.module.scss";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import Register from "../register/Register";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "../../services/axios/axios.service";
 import { Alert } from "@mui/material";
+import { Formik } from "formik";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import ButtonInfor from "../../common/button/ButtonInfor";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
+import axios from "../../services/axios/axios.service";
+import classes from "./Login.module.scss";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -120,7 +117,9 @@ const Login = () => {
                 </div>
                 <div className={classes.registerAccount}>
                   <p>{`Don't have an account?`}</p>
-                  <Link to="/register" className={classes.registerLink}>Register</Link>
+                  <Link to="/register" className={classes.registerLink}>
+                    Register
+                  </Link>
                 </div>
               </form>
             )}

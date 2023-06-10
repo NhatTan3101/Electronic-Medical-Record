@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import ButtonInfor from "../../../common/button/ButtonInfor";
 import { DoctorIcon } from "../../images/index";
 import classes from "./IntroductionForm.module.scss";
 
@@ -21,11 +20,8 @@ const IntroductionForm = (props) => {
                     An electronic record of health-related information on an
                     individual that can be created, gathered, managed, and
                     consulted by authorized clinicians and staff within one
-                    health care organization
+                    health care organization.
                   </p>
-                </div>
-                <div className={classes.buttonInfor}>
-                  <ButtonInfor>More Information</ButtonInfor>
                 </div>
               </div>
             </div>

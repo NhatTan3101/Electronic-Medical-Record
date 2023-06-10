@@ -20,7 +20,7 @@ export default class UserController {
   static async register(req, res) {
     var {
       mabhyt,
-      idcardno,
+      phonenumber,
       name,
       address,
       birthday,
@@ -33,7 +33,7 @@ export default class UserController {
 
     var user = {
       mabhyt,
-      idcardno,
+      phonenumber,
       name,
       address,
       birthday,
