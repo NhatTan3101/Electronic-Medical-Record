@@ -7,6 +7,8 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import About from './pages/about/About';
+import MedicalHistory from './pages/medicalhistory/MedicalHistory';
+import Profile from './pages/profile/Profile';
 
 function App() {
   const router = createBrowserRouter([
@@ -33,7 +35,15 @@ function App() {
         {
           path: "about",
           element: <About />
-        }
+        },
+        {
+          path: "profile",
+          element: <Profile />
+        },
+        {
+          path: "history",
+          element: <MedicalHistory />
+        },
       ]
     }
   ]);

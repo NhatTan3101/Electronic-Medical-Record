@@ -44,6 +44,12 @@ export default function Navbar() {
     handleMobileMenuClose();
   };
 
+  const handleProfile = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    navigate("/profile");
+  };
+
   const handleLogout = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -73,8 +79,14 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      {user !== null ? (
+        <>
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </>
+      ) : (
+        <MenuItem onClick={handleMenuClose}>Try now</MenuItem>
+      )}
     </Menu>
   );
 
@@ -125,7 +137,7 @@ export default function Navbar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>{user?.name}</p>
       </MenuItem>
     </Menu>
   );
@@ -175,7 +187,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link to="/personalinfor" className={classes.linkToPage}>
+                <Link to="/profile" className={classes.linkToPage}>
                   Personal Information
                 </Link>
                 <Link to="/history" className={classes.linkToPage}>
