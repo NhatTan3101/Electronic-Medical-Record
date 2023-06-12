@@ -12,17 +12,14 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const LoginSchema = Yup.object().shape({
-    mabhyt: Yup.string()
-      .max(16, "Health insurance code syntax has 16 characters")
-      .min(16, "Health insurance code syntax has 16 characters")
-      .required("Required"),
+    email: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
   });
 
   const login = async (values) => {
     try {
       const res = await axios.post("/user/login", {
-        mabhyt: values.mabhyt,
+        email: values.email,
         password: values.password,
       });
 
@@ -48,15 +45,10 @@ const Login = () => {
           <h2>Login</h2>
           {error && <Alert severity="error">{error}</Alert>}
           <Formik
-            initialValues={{ mabhyt: "", password: "" }}
+            initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
-            validate={(values) => {
+            validate={() => {
               const errors = {};
-              if (!values.mabhyt) {
-                errors.mabhyt = "Required";
-              } else if (!/^[[A-Z]+[0-9]{3,16}$/i.test(values.mabhyt)) {
-                errors.mabhyt = "Invalid health insurance code syntax";
-              }
               return errors;
             }}
             onSubmit={login}
@@ -71,19 +63,16 @@ const Login = () => {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit}>
-                <h6>{errors.mabhyt && touched.mabhyt && errors.mabhyt}</h6>
                 <input
                   className={classes.inputLogin}
-                  type="text"
-                  name="mabhyt"
-                  placeholder="Health insurance code"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.mabhyt}
-                />
-                <h6>
-                  {errors.password && touched.password && errors.password}
-                </h6>
+                  value={values.email}
+                  />
+                  <h6>{errors.email && touched.email && errors.email}</h6>
                 <input
                   className={classes.inputLogin}
                   type="password"
@@ -92,7 +81,10 @@ const Login = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
-                />
+                  />
+                  <h6>
+                    {errors.password && touched.password && errors.password}
+                  </h6>
                 <div className={classes.loginRemember}>
                   <div className={classes.loginRememberElement}>
                     <input
@@ -102,7 +94,7 @@ const Login = () => {
                       id="remembered"
                       defaultChecked={true}
                     />
-                    <span>Remember me</span>
+                    <label htmlFor="remembered">Remember me</label>
                   </div>
                   <div>
                     <span className={classes.forgotPassword}>

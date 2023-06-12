@@ -67,7 +67,7 @@ export default function Navbar() {
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "bottom",
+        vertical: 50,
         horizontal: "center",
       }}
       id={menuId}
@@ -144,7 +144,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             size="large"

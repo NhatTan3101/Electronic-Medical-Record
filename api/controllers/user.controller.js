@@ -7,7 +7,7 @@ export default class UserController {
   static async login(req, res) {
     const model = new UserModel();
 
-    const result = await model.findUser(req.body.mabhyt, req.body.password);
+    const result = await model.findUser(req.body.email, req.body.password);
 
     /** Response data */
     res.status(200).json({
@@ -19,27 +19,19 @@ export default class UserController {
 
   static async register(req, res) {
     var {
-      mabhyt,
-      phonenumber,
+      email,
       name,
-      address,
-      birthday,
-      hometown,
-      nation,
       password,
+      role,
     } = req.body;
     
     console.log("res", req.body);
 
     var user = {
-      mabhyt,
-      phonenumber,
+      email,
       name,
-      address,
-      birthday,
-      hometown,
-      nation,
       password,
+      role,
     };
 
     await database.ref("users/").push(user);

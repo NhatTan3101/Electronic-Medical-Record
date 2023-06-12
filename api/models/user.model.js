@@ -5,7 +5,7 @@ export default class UserModel {
     this.ref = database.ref("/users");
   }
 
-  async findUser(mabhyt, password) {
+  async findUser(email, password) {
     /** Get all users from firebase */
     const data = await this.ref.once("value");
 
@@ -13,7 +13,7 @@ export default class UserModel {
 
     for (const key in users) {
       const user = users[key];
-      if (user.mabhyt === mabhyt && user.password === password) {
+      if (user.email === email && user.password === password) {
         return { isValid: true, user };
       }
     }
