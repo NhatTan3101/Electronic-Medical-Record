@@ -1,0 +1,19 @@
+.container {
+  background-color: #e5e5e5;
+  padding-top: 100px;
+  height: 100%;
+  .record {
+    height: 100%;
+    max-width: 70%;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px 40px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      .createRecord{
+        display: flex;
+        justify-content: space-around;
+        margin: 40px auto;
+      }
+  }
+}

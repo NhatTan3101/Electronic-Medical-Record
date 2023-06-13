@@ -25,13 +25,27 @@ export default class UserController {
       role,
     } = req.body;
     
-    console.log("res", req.body);
-
     var user = {
       email,
       name,
       password,
       role,
+    };
+
+    await database.ref("users/").push(user);
+
+    res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
+  }
+
+  static async update(req, res) {
+    var {
+      mabhyt,
+    } = req.body;
+    
+    console.log("res", req.body);
+
+    var user = {
+      mabhyt,
     };
 
     await database.ref("users/").push(user);

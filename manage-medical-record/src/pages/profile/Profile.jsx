@@ -1,67 +1,129 @@
-import React from "react";
+import { Avatar, Button, Divider, Grid } from "@mui/material";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
+import Input from "../../common/input/Input";
+import axios from "../../services/axios/axios.service";
 import classes from "./Profile.module.scss";
-import { Grid } from "@mui/material";
 
 const Profile = () => {
-  const [user, setUser] = React.useState(null);
-  React.useEffect(() => {
+  const [user, setUser] = useState(null);
+  const [image, setImage] = useState(null);
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  useEffect(() => {
     const authenticatedUser = localStorage.getItem("user");
     if (authenticatedUser) setUser(JSON.parse(authenticatedUser));
   }, []);
+  const update = async (values) => {
+    try {
+      await axios.post("/user/update", values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UpdateSchema = Yup.object().shape({
+    mabhyt: Yup.string()
+      .max(16, "Health insurance code syntax has 16 characters")
+      .min(16, "Health insurance code syntax has 16 characters")
+      .required("Required"),
+  });
 
   return (
     <div className={classes.container}>
       <div className={classes.formProfile}>
         <h1>My Profile</h1>
         <p>Manage profile information for account security</p>
-        <hr />
+        <Divider className={classes.divider} />
         <Grid container spacing={2}>
           <Grid item sm={12} md={9} xl={6}>
             <div className={classes.personalInfor}>
-              <table>
-                <tr>
-                  <td>
-                    <label>Fullname</label>
-                  </td>
-                  <td>
-                    <input defaultValue={user?.name} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Email</label>
-                  </td>
-                  <td>
-                    <input defaultValue={user?.email} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Role</label>
-                  </td>
-                  <td>
-                    <input defaultValue={user?.role} />
-                  </td>
-                </tr>
-                {user?.role === "doctor" ? (
-                  <>
-                    <tr>
-                      <td>
-                        <label>Health insurance code</label>
-                      </td>
-                      <td>
-                        <input defaultValue={(user?.mabhyt) ? user?.mabhyt : "Trống"} />
-                      </td>
-                    </tr>
-                  </>
-                ) : (
-                  <>doctor</>
+              <Formik
+                initialValues={{ mabhyt: "" }}
+                validationSchema={UpdateSchema}
+                validate={(values) => {
+                  const errors = {};
+                  if (!values.mabhyt) {
+                    errors.mabhyt = "Required";
+                  } else if (!/^[[A-Z]+[0-9]{3,16}$/i.test(values.mabhyt)) {
+                    errors.mabhyt = "Invalid health insurance code syntax";
+                  }
+                  return errors;
+                }}
+                onSubmit={update}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className={classes.inline}>
+                      <label>Fullname</label>
+                      <label>{user?.name}</label>
+                      {/* <input value={user?.name} defaultValue={user?.name} /> */}
+                    </div>
+                    <div className={classes.inline}>
+                      <label>Email</label>
+                      <label>{user?.email}</label>
+                      {/* <input defaultValue={user?.email} /> */}
+                    </div>
+                    <div className={classes.inline}>
+                      <label>Role</label>
+                      <label>{user?.role}</label>
+                      {/* <input defaultValue={user?.role} /> */}
+                    </div>
+                    {user?.role === "patient" ? (
+                      <div className={classes.inline}>
+                        <Input
+                          type="text"
+                          name="mabhyt"
+                          label="Health insurance code"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.mabhyt}
+                          defaultValue={user?.mabhyt ? user?.mabhyt : "Trống"}
+                        />
+                        <h6 className={classes.errorRequired}>
+                          {errors.mabhyt && touched.mabhyt && errors.mabhyt}
+                        </h6>
+                      </div>
+                    ) : (
+                      <>abc</>
+                    )}
+                    <div>
+                      <Button type="reset" variant="outlined">
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                        disabled={isSubmitting}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </form>
                 )}
-              </table>
+              </Formik>
             </div>
           </Grid>
+          {/* <Divider orientation="vertical" flexItem /> */}
           <Grid item sm={12} md={3} xl={6}>
-            <div className={classes.avatarChange}>abc</div>
+            {user?.image ? (
+              <Avatar className={classes.avatar} src={user?.image} />
+            ) : (
+              <Avatar className={classes.avatar} src="/broken-image.jpg" />
+            )}
+            <input type="file" onChange={onImageChange} />
+            abc
           </Grid>
         </Grid>
       </div>

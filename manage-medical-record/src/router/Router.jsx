@@ -8,6 +8,7 @@ import Register from "../pages/register/Register";
 import About from "../pages/about/About";
 import MedicalHistory from "../pages/medicalhistory/MedicalHistory";
 import Profile from "../pages/profile/Profile";
+import PatientList from "../pages/patientlist/PatientList";
 import classes from "./Router.module.scss";
 
 export default createBrowserRouter([
@@ -26,7 +27,7 @@ export default createBrowserRouter([
         <Navbar />
         <div className={classes.content}>
           <Outlet />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     ),
@@ -46,6 +47,10 @@ export default createBrowserRouter([
       {
         path: "history",
         element: <MedicalHistory />,
+      },
+      {
+        path: "patientlist",
+        element: <PatientList />,
       },
     ],
   },

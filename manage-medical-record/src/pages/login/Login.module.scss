@@ -1,5 +1,6 @@
 .loginScreen {
   color: #400d12;
+  overflow: auto;
 
   .loginDetail {
     width: 450px;
@@ -14,6 +15,9 @@
       padding-bottom: 30px;
     }
 
+    h6 {
+      color: red;
+    }
     .inputLogin {
       width: 100%;
       border: 1px solid #400d12;

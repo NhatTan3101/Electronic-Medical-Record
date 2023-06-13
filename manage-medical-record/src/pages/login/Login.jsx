@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import ButtonInfor from "../../common/button/ButtonInfor";
+import Input from "../../common/input/Input";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 import axios from "../../services/axios/axios.service";
 import classes from "./Login.module.scss";
@@ -30,7 +31,7 @@ const Login = () => {
         );
         navigate("/");
       } else {
-        setError("Your health insurance code or password is incorrect!");
+        setError("Your email or password is incorrect!");
       }
     } catch (err) {
       setError(err?.message || "Unknown error!");
@@ -63,17 +64,16 @@ const Login = () => {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit}>
-                <input
-                  className={classes.inputLogin}
+                <Input
                   type="email"
                   name="email"
                   placeholder="Email"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  />
-                  <h6>{errors.email && touched.email && errors.email}</h6>
-                <input
+                />
+                <h6>{errors.email && touched.email && errors.email}</h6>
+                <Input
                   className={classes.inputLogin}
                   type="password"
                   name="password"
@@ -81,10 +81,10 @@ const Login = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
-                  />
-                  <h6>
-                    {errors.password && touched.password && errors.password}
-                  </h6>
+                />
+                <h6>
+                  {errors.password && touched.password && errors.password}
+                </h6>
                 <div className={classes.loginRemember}>
                   <div className={classes.loginRememberElement}>
                     <input

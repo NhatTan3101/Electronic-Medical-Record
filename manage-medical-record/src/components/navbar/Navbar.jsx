@@ -16,7 +16,49 @@ import { Avatar } from "@mui/material";
 import UserAvatar from "../avatars/UserAvatar/UserAvatar.avatar";
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./Navbar.module.scss";
+import SearchIcon from "@mui/icons-material/Search";
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
 
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
 export default function Navbar() {
   const [user, setUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,12 +92,16 @@ export default function Navbar() {
     navigate("/profile");
   };
 
-  const handleLogout = () => {
+  const handleTryNow = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    navigate("/login");
+  };
+
+  const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
-    navigate("/login");
+    handleTryNow();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -85,7 +131,7 @@ export default function Navbar() {
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </>
       ) : (
-        <MenuItem onClick={handleMenuClose}>Try now</MenuItem>
+        <MenuItem onClick={handleTryNow}>Try now</MenuItem>
       )}
     </Menu>
   );
@@ -163,6 +209,17 @@ export default function Navbar() {
           >
             EMRS
           </Typography>
+          {user?.role === "doctor" && (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          )}
           <Box
             sx={{
               flexGrow: 1,
@@ -185,13 +242,16 @@ export default function Navbar() {
                   Register
                 </Link>
               </>
-            ) : (
+            ) : user.role === "patient" ? (
               <>
-                <Link to="/profile" className={classes.linkToPage}>
-                  Personal Information
-                </Link>
                 <Link to="/history" className={classes.linkToPage}>
                   Medical History
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/notification" className={classes.linkToPage}>
+                  Notification
                 </Link>
               </>
             )}
