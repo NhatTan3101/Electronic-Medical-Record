@@ -55,7 +55,6 @@ const Register = () => {
             {({
               values,
               errors,
-              touched,
               handleChange,
               handleBlur,
               handleSubmit,
@@ -68,13 +67,12 @@ const Register = () => {
                   onBlur={handleBlur}
                   value={values.role}
                   inputLabel="Role"
+                  error={!!errors.role}
+                  helperText={errors.role}
                 >
                   <MenuItem value="patient">Patient</MenuItem>
                   <MenuItem value="doctor">Doctor</MenuItem>
                 </InputSelect>
-                <h6 className={classes.errorRequired}>
-                  {errors.role && touched.role && errors.role}
-                </h6>
                 <Input
                   type="text"
                   name="name"
@@ -82,10 +80,9 @@ const Register = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
+                  error={!!errors.name}
+                  helperText={errors.name}
                 />
-                <h6 className={classes.errorRequired}>
-                  {errors.name && touched.name && errors.name}
-                </h6>
                 <Input
                   type="email"
                   name="email"
@@ -93,10 +90,9 @@ const Register = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
-                <h6 className={classes.errorRequired}>
-                  {errors.email && touched.email && errors.email}
-                </h6>
                 <Input
                   type={passwordType}
                   name="password"
@@ -105,12 +101,9 @@ const Register = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
-                >
-                  {/* { passwordType==="password"? <VisibilityIcon /> :<VisibilityOffIcon /> } */}
-                </Input>
-                <h6 className={classes.errorRequired}>
-                  {errors.password && touched.password && errors.password}
-                </h6>
+                  error={!!errors.password}
+                  helperText={errors.password}
+                />
                 <div className={classes.buttonInfor}>
                   <ButtonInfor type="submit" disabled={isSubmitting}>
                     Create an account

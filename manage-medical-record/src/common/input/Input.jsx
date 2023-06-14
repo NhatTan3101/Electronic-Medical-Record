@@ -9,29 +9,25 @@ const Input = ({
   onChange,
   onBlur,
   label,
+  helperText,
+  error,
 }) => {
-  return (   
-      <TextField
-        name={name}
-        value={value}
-        defaultValue={defaultValue}
-        type={type}
-        onChange={onChange}
-        onBlur={onBlur}
-        fullWidth
-        label={label}
-        variant="outlined"
-        sx={{
-          "& .MuiInputBase-root": {
-            "& .MuiInputBase-input": {
-              height: "10px",
-              backgroundColor: "#fff",
-              borderRadius: "4px",
-            },
-          },
-          margin: "10px 0px",
-        }}
-      />
+  return (
+    <TextField
+      name={name}
+      value={value}
+      defaultValue={defaultValue}
+      type={type}
+      onChange={onChange}
+      onBlur={onBlur}
+      fullWidth
+      label={label}
+      variant="outlined"
+      error={error}
+      helperText={helperText}
+      size="small"
+      sx={{mb: '10px'}}
+    />
   );
 };
 

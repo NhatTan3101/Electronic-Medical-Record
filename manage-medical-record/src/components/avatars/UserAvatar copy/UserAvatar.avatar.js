@@ -34,7 +34,5 @@ function stringAvatar(name) {
 
 export default function UserAvatar(props) {
   const { children } = props;
-  if (children?.length) return <Avatar {...stringAvatar(children)} />;
-
-  return '';
+  return <Avatar {...stringAvatar(children)} />;
 }

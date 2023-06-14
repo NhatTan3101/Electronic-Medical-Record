@@ -57,7 +57,6 @@ const Login = () => {
             {({
               values,
               errors,
-              touched,
               handleChange,
               handleBlur,
               handleSubmit,
@@ -71,8 +70,9 @@ const Login = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
-                <h6>{errors.email && touched.email && errors.email}</h6>
                 <Input
                   className={classes.inputLogin}
                   type="password"
@@ -81,10 +81,9 @@ const Login = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
-                <h6>
-                  {errors.password && touched.password && errors.password}
-                </h6>
                 <div className={classes.loginRemember}>
                   <div className={classes.loginRememberElement}>
                     <input

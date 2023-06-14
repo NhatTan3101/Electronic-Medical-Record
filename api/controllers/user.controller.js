@@ -13,18 +13,13 @@ export default class UserController {
     res.status(200).json({
       code: 10201,
       message: "Successfully",
-      result
+      result,
     });
   }
 
   static async register(req, res) {
-    var {
-      email,
-      name,
-      password,
-      role,
-    } = req.body;
-    
+    var { email, name, password, role } = req.body;
+
     var user = {
       email,
       name,
@@ -38,18 +33,32 @@ export default class UserController {
   }
 
   static async update(req, res) {
-    var {
-      mabhyt,
-    } = req.body;
-    
-    console.log("res", req.body);
+    const { mabhyt } = req.body;
+    const { userId } = req.params;
 
-    var user = {
+    const user = {
       mabhyt,
     };
 
-    await database.ref("users/").push(user);
+    await database.ref(`users/${userId}`).update(user);
 
     res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
+  }
+
+  static async getUser(req, res) {
+    const { userId } = req.params;
+
+    await database.ref(`users/${userId}`).get(user);
+
+    res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
+  }
+
+  static async search(req, res) {
+    const model = new UserModel();
+    const { mabhyt } = req.query;
+
+    const users = await model.findUsers(mabhyt);
+
+    res.status(200).json(new Response(102, "error", { isSuccessfull: true, users }));
   }
 }

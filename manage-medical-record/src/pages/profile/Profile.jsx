@@ -20,7 +20,8 @@ const Profile = () => {
   }, []);
   const update = async (values) => {
     try {
-      await axios.post("/user/update", values);
+      const { userId } = JSON.parse(localStorage.getItem('user'));
+      await axios.put(`/user/${userId}`, values);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +59,6 @@ const Profile = () => {
                 {({
                   values,
                   errors,
-                  touched,
                   handleChange,
                   handleBlur,
                   handleSubmit,
@@ -90,10 +90,9 @@ const Profile = () => {
                           onBlur={handleBlur}
                           value={values.mabhyt}
                           defaultValue={user?.mabhyt ? user?.mabhyt : "Trống"}
+                          error={!!errors.mabhyt}
+                          helperText={errors.mabhyt}
                         />
-                        <h6 className={classes.errorRequired}>
-                          {errors.mabhyt && touched.mabhyt && errors.mabhyt}
-                        </h6>
                       </div>
                     ) : (
                       <>abc</>

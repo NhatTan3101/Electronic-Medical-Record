@@ -3,32 +3,10 @@ import { Button } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import NewMedicalRecord from "../../components/new-medical-record/NewMedicalRecord";
 import classes from "./MedicalHistory.module.scss";
-
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
-
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
-
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
-      <form></form>
-    </Dialog>
-  );
-}
-
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
 
 const MedicalHistory = () => {
   const [user, setUser] = useState(null);
@@ -74,7 +52,7 @@ const MedicalHistory = () => {
           </Button>
         </div>
         {/* )} */}
-        <SimpleDialog open={open} onClose={handleClose} />
+        <NewMedicalRecord open={open} onClose={handleClose} />
       </div>
     </div>
   );

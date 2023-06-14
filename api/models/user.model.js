@@ -14,11 +14,31 @@ export default class UserModel {
     for (const key in users) {
       const user = users[key];
       if (user.email === email && user.password === password) {
-        return { isValid: true, user };
+        return { isValid: true, user: {...user, userId: key } };
       }
     }
 
     /** Check user from client is valid with database */
     return { isValid: false };
+  }
+
+  async findUsers(keyword) {
+    /** Get all users from firebase */
+    const data = await this.ref.once("value");
+
+    const users = data.val();
+
+    const searchedUsers = [];
+
+    for (const key in users) {
+      const user = users[key];
+      if (user?.mabhyt?.includes(keyword)) {
+        
+      console.log('user', user ,keyword)
+        searchedUsers.push({...user, userId: key });
+      }
+    }
+
+    return searchedUsers;
   }
 }

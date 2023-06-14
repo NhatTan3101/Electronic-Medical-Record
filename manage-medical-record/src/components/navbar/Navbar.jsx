@@ -19,6 +19,9 @@ import classes from "./Navbar.module.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import BasicPopover from "../../common/popover/Popover";
+import AvatarItem from "../avatars/AvatarItem/AvatarItem.avatar";
+import axios from "../../services/axios/axios.service";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -27,11 +30,9 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -59,8 +60,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
 export default function Navbar() {
   const [user, setUser] = React.useState(null);
+  const [keyword, setKeyword] = React.useState("");
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [searchedUsers, setSearchedUsers] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const navigate = useNavigate();
@@ -75,6 +80,14 @@ export default function Navbar() {
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleSearch = async (event) => {
+    setKeyword(event.target.value);
+    const response = await axios.get("user", {
+      params: { mabhyt: event.target.value },
+    });
+    setSearchedUsers(response.data?.result?.users || []);
   };
 
   const handleMobileMenuClose = () => {
@@ -210,15 +223,34 @@ export default function Navbar() {
             EMRS
           </Typography>
           {user?.role === "doctor" && (
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
+            <BasicPopover
+              open={!!keyword}
+              renderContainer={() => (
+                <div>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search…"
+                      inputProps={{ "aria-label": "search" }}
+                      onChange={handleSearch}
+                    />
+                  </Search>
+                </div>
+              )}
+              content={
+                <div>
+                  {searchedUsers.map((searchedUser, index) => (
+                    <AvatarItem
+                      key={index}
+                      name={searchedUser?.name}
+                      code={searchedUser?.mabhyt}
+                    />
+                  ))}
+                </div>
+              }
+            />
           )}
           <Box
             sx={{
