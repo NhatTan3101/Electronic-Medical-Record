@@ -1,14 +1,15 @@
-import { Button, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
 import * as Yup from "yup";
+import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
+import axios from "../../services/axios/axios.service";
 import classes from "./NewMedicalRecord.module.scss";
-
 export default function NewMedicalRecord(props) {
   const { onClose, selectedValue, open } = props;
 
@@ -16,7 +17,14 @@ export default function NewMedicalRecord(props) {
     onClose(selectedValue);
   };
 
-  const createMedical = async (values) => {};
+  const createMedicalRecord = async (values) => {
+    try {
+      const { userId } = JSON.parse(localStorage.getItem("user"));
+      await axios.post(`/medical-records/${userId}`, values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const MedicalSchema = Yup.object().shape({
     diagnoseDisease: Yup.string().required("Required"),
@@ -25,11 +33,15 @@ export default function NewMedicalRecord(props) {
     doctor: Yup.string().required("Required"),
     emailDoctor: Yup.string().required("Required"),
     createAt: Yup.string().required("Required"),
+    pill: Yup.string().required("Required"),
+    quantity: Yup.string().required("Required"),
+    timesperday: Yup.date().required("Required"),
+    dayofsurgery: Yup.date().required("Required"),
   });
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Create Medical Record</DialogTitle>
+      <DialogTitle sx={{ pl: "50px" }}>Create Medical Record</DialogTitle>
       <Formik
         initialValues={{
           diagnoseDisease: "",
@@ -38,13 +50,17 @@ export default function NewMedicalRecord(props) {
           doctor: "",
           emailDoctor: "",
           createAt: "",
+          pill: "",
+          quantity: "",
+          timesperday: "",
+          dayofsurgery: "",
         }}
         validationSchema={MedicalSchema}
         validate={() => {
           const errors = {};
           return errors;
         }}
-        onSubmit={createMedical}
+        onSubmit={createMedicalRecord}
       >
         {({
           values,
@@ -54,11 +70,14 @@ export default function NewMedicalRecord(props) {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form
+            className={classes.container}
+            onSubmit={handleSubmit}
+          >
             <Input
               type="text"
               name="diagnoseDisease"
-              label="Diagnose Disease"
+              label="Diagnose disease"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.diagnoseDisease}
@@ -86,6 +105,52 @@ export default function NewMedicalRecord(props) {
               <MenuItem value="surgery">Surgery</MenuItem>
               <MenuItem value="acupuncture">Acupuncture</MenuItem>
             </InputSelect>
+            {values.treatment === "take medicine" && (
+              <div style={{ display: "flex" }}>
+                <Input
+                  type="text"
+                  name="pill"
+                  label="Pill"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.pill}
+                  error={!!errors.pill}
+                  helperText={errors.pill}
+                />
+                <Input
+                  type="text"
+                  name="quantity"
+                  label="Quantity"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.quantity}
+                  error={!!errors.quantity}
+                  helperText={errors.quantity}
+                />
+                <Input
+                  type="text"
+                  name="timesperday"
+                  label="Times per day"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.timesperday}
+                  error={!!errors.timesperday}
+                  helperText={errors.timesperday}
+                />
+              </div>
+            )}
+            {values.treatment === "surgery" && (
+              <Input
+                type="date"
+                name="dayofsurgery"
+                label="Day of surgery"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.dayofsurgery}
+                error={!!errors.dayofsurgery}
+                helperText={errors.dayofsurgery}
+              />
+            )}
             <Input
               type="text"
               name="doctor"
@@ -117,9 +182,9 @@ export default function NewMedicalRecord(props) {
               helperText={errors.createAt}
             />
             <div className={classes.buttonInfor}>
-              <Button type="submit" disabled={isSubmitting}>
+              <ButtonInfor type="submit" disabled={isSubmitting}>
                 Create an account
-              </Button>
+              </ButtonInfor>
             </div>
           </form>
         )}

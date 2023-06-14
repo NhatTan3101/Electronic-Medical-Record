@@ -1,11 +1,11 @@
 import React from "react";
-import classes from "./ButtonInfor.module.scss";
+import { Button } from "@mui/material";
 
-const ButtonInfor = ({ children, type, disabled, onClick }) => {
+const ButtonInfor = ({ children, type, disabled, onClick, fullWidth }) => {
   return (
-    <button onClick={onClick} disabled={disabled} type={type} className={classes.container}>
+    <Button fullWidth={fullWidth} variant="contained" onClick={onClick} disabled={disabled} type={type}>
       {children}
-    </button>
+    </Button>
   );
 };
 

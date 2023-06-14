@@ -1,5 +1,4 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Button } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -7,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import NewMedicalRecord from "../../components/new-medical-record/NewMedicalRecord";
 import classes from "./MedicalHistory.module.scss";
+import ButtonInfor from "../../common/button/ButtonInfor";
+import MedicalRecord from "../../components/medical-record/MedicalRecord";
 
 const MedicalHistory = () => {
   const [user, setUser] = useState(null);
@@ -38,18 +39,14 @@ const MedicalHistory = () => {
             <Typography>Accordion 1</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
+            <MedicalRecord />
           </AccordionDetails>
         </Accordion>
         {/* {user?.role === "doctor" && ( */}
         <div className={classes.createRecord}>
-          <Button variant="contained" onClick={handleClickOpen}>
+          <ButtonInfor variant="contained" onClick={handleClickOpen}>
             New Medical Record
-          </Button>
+          </ButtonInfor>
         </div>
         {/* )} */}
         <NewMedicalRecord open={open} onClose={handleClose} />

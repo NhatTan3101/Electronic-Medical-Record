@@ -1,10 +1,16 @@
 import Grid from "@mui/material/Grid";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ButtonInfor from "../../common/button/ButtonInfor";
 import { MedicalRecordIcon } from "../../components/images";
 import classes from "./Home.module.scss";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleMoreInfor = () => {
+    navigate("/about");
+  };
   return (
     <div className={classes.container}>
       <Grid container spacing={2}>
@@ -29,9 +35,9 @@ const Home = () => {
               percent reported having a basic system.`}
             </p>
             <div className={classes.moreInfor}>
-              <Link to="/about" className={classes.buttonInfor}>
+              <ButtonInfor onClick={handleMoreInfor}>
                 More Information
-              </Link>
+              </ButtonInfor>
             </div>
           </div>
         </Grid>

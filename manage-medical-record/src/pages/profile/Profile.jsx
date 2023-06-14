@@ -1,7 +1,8 @@
-import { Avatar, Button, Divider, Grid } from "@mui/material";
+import { Avatar, Divider, Grid } from "@mui/material";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
+import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import axios from "../../services/axios/axios.service";
 import classes from "./Profile.module.scss";
@@ -20,7 +21,7 @@ const Profile = () => {
   }, []);
   const update = async (values) => {
     try {
-      const { userId } = JSON.parse(localStorage.getItem('user'));
+      const { userId } = JSON.parse(localStorage.getItem("user"));
       await axios.put(`/user/${userId}`, values);
     } catch (error) {
       console.log(error);
@@ -42,6 +43,44 @@ const Profile = () => {
         <Grid container spacing={2}>
           <Grid item sm={12} md={9} xl={6}>
             <div className={classes.personalInfor}>
+              <table>
+                <tr>
+                  <td>
+                    <label>Fullname</label>
+                  </td>
+                  <td>
+                    <label>{user?.name}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Email</label>
+                  </td>
+                  <td>
+                    <label>{user?.email}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Role</label>
+                  </td>
+                  <td>
+                    <label>{user?.role}</label>
+                  </td>
+                </tr>
+              </table>
+              {/* <div className={classes.inline}>
+                <label>Fullname</label>
+                <label>{user?.name}</label>
+              </div>
+              <div className={classes.inline}>
+                <label>Email</label>
+                <label>{user?.email}</label>
+              </div>
+              <div className={classes.inline}>
+                <label>Role</label>
+                <label>{user?.role}</label>
+              </div> */}
               <Formik
                 initialValues={{ mabhyt: "" }}
                 validationSchema={UpdateSchema}
@@ -65,21 +104,6 @@ const Profile = () => {
                   isSubmitting,
                 }) => (
                   <form onSubmit={handleSubmit}>
-                    <div className={classes.inline}>
-                      <label>Fullname</label>
-                      <label>{user?.name}</label>
-                      {/* <input value={user?.name} defaultValue={user?.name} /> */}
-                    </div>
-                    <div className={classes.inline}>
-                      <label>Email</label>
-                      <label>{user?.email}</label>
-                      {/* <input defaultValue={user?.email} /> */}
-                    </div>
-                    <div className={classes.inline}>
-                      <label>Role</label>
-                      <label>{user?.role}</label>
-                      {/* <input defaultValue={user?.role} /> */}
-                    </div>
                     {user?.role === "patient" ? (
                       <div className={classes.inline}>
                         <Input
@@ -98,16 +122,13 @@ const Profile = () => {
                       <>abc</>
                     )}
                     <div>
-                      <Button type="reset" variant="outlined">
-                        Cancel
-                      </Button>
-                      <Button
+                      <ButtonInfor
                         type="submit"
                         variant="outlined"
                         disabled={isSubmitting}
                       >
                         Save
-                      </Button>
+                      </ButtonInfor>
                     </div>
                   </form>
                 )}

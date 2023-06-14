@@ -105,7 +105,7 @@ const Register = () => {
                   helperText={errors.password}
                 />
                 <div className={classes.buttonInfor}>
-                  <ButtonInfor type="submit" disabled={isSubmitting}>
+                  <ButtonInfor fullWidth="true" type="submit" disabled={isSubmitting}>
                     Create an account
                   </ButtonInfor>
                 </div>

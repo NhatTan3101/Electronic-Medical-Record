@@ -1,27 +1,28 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Avatar } from "@mui/material";
-import UserAvatar from "../avatars/UserAvatar/UserAvatar.avatar";
-import { Link, useNavigate } from "react-router-dom";
-import classes from "./Navbar.module.scss";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled, alpha } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { alpha, styled } from "@mui/material/styles";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import BasicPopover from "../../common/popover/Popover";
-import AvatarItem from "../avatars/AvatarItem/AvatarItem.avatar";
 import axios from "../../services/axios/axios.service";
+import AvatarItem from "../avatars/AvatarItem/AvatarItem.avatar";
+import UserAvatar from "../avatars/UserAvatar/UserAvatar.avatar";
+import classes from "./Navbar.module.scss";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,18 +63,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
-  const [user, setUser] = React.useState(null);
-  const [keyword, setKeyword] = React.useState("");
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [searchedUsers, setSearchedUsers] = React.useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [user, setUser] = useState(null);
+  const [keyword, setKeyword] = useState("");
+  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const authenticatedUser = localStorage.getItem("user");
     if (authenticatedUser) setUser(JSON.parse(authenticatedUser));
   }, []);

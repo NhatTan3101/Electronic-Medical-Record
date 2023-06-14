@@ -102,7 +102,7 @@ const Login = () => {
                   </div>
                 </div>
                 <div className={classes.buttonInfor}>
-                  <ButtonInfor type="submit" disabled={isSubmitting}>
+                  <ButtonInfor fullWidth="true" type="submit" disabled={isSubmitting}>
                     Login
                   </ButtonInfor>
                 </div>
