@@ -240,7 +240,7 @@ export default function Navbar() {
                 </div>
               )}
               content={
-                <div>
+                <div className={classes.popover}>
                   {searchedUsers.map((searchedUser, index) => (
                     <Link key={index} to={`/history/${searchedUser?.userId}`} className={classes.linkToPage} onClick={()=>setKeyword(!keyword)}>
                       <AvatarItem

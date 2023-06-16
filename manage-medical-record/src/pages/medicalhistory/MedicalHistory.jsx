@@ -73,7 +73,7 @@ const MedicalHistory = () => {
             </ButtonInfor>
           </div>
         )}
-        <NewMedicalRecord open={open} onClose={handleClose}/>
+        <NewMedicalRecord open={open} onClose={handleClose} userId={userId}/>
       </div>
     </div>
   );

@@ -9,19 +9,9 @@ import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
-import { useParams } from "react-router-dom";
 import classes from "./NewMedicalRecord.module.scss";
 export default function NewMedicalRecord(props) {
-  const { userId } = useParams();
-  const { onClose, selectedValue, open } = props;
-
-  // useEffect(() => {
-    // const authenticatedUser = JSON.parse(localStorage.getItem("user"));
-    // if (authenticatedUser) setUser(authenticatedUser);
-    // axios.get(`/medical-records/${userId}`).then((response) => {
-    //   setRecords(response?.data?.result?.records || []);
-    // });
-  // }, []);
+  const { onClose, selectedValue, open, userId } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -29,7 +19,6 @@ export default function NewMedicalRecord(props) {
 
   const createMedicalRecord = async (values) => {
     try {
-      console.log('values', values);
       await axios.post(`/medical-records/${userId}`, values);
     } catch (error) {
       console.log(error);
@@ -39,7 +28,7 @@ export default function NewMedicalRecord(props) {
   const MedicalSchema = Yup.object().shape({
     diagnoseDisease: Yup.string().required("Required"),
     symptom: Yup.string().required("Required"),
-    treatment: Yup.string().required("Required"), //nếu có chọn uống thuốc
+    treatment: Yup.string().required("Required"), 
     doctor: Yup.string().required("Required"),
     emailDoctor: Yup.string().required("Required"),
     createAt: Yup.string().required("Required"),
@@ -65,11 +54,6 @@ export default function NewMedicalRecord(props) {
           timeperday: "",
           dayofsurgery: "",
         }}
-        // validationSchema={MedicalSchema}
-        // validate={() => {
-        //   const errors = {};
-        //   return errors;
-        // }}
         onSubmit={createMedicalRecord}
       >
         {({
@@ -192,7 +176,7 @@ export default function NewMedicalRecord(props) {
               helperText={errors.createAt}
             />
             <div className={classes.buttonInfor}>
-              <ButtonInfor type="submit" disabled={isSubmitting}>
+              <ButtonInfor type="submit" disabled={isSubmitting} onClick={handleClose}>
                 Create an account
               </ButtonInfor>
             </div>

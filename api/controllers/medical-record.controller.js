@@ -31,7 +31,7 @@ export default class MedicalRecordController {
         timeperday,
         dayofsurgery,
       };
-      console.log("test", req.body.diagnoseDisease);
+    
       await database.ref(`users/${userId}/records`).push(medicalRecord);
 
       res.status(200).json(new Response(102, "ok", { isSuccessfull: true }));
