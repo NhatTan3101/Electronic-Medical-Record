@@ -69,18 +69,6 @@ const Profile = () => {
                   </td>
                 </tr>
               </table>
-              {/* <div className={classes.inline}>
-                <label>Fullname</label>
-                <label>{user?.name}</label>
-              </div>
-              <div className={classes.inline}>
-                <label>Email</label>
-                <label>{user?.email}</label>
-              </div>
-              <div className={classes.inline}>
-                <label>Role</label>
-                <label>{user?.role}</label>
-              </div> */}
               <Formik
                 initialValues={{ mabhyt: "" }}
                 validationSchema={UpdateSchema}

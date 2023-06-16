@@ -9,9 +9,19 @@ import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
+import { useParams } from "react-router-dom";
 import classes from "./NewMedicalRecord.module.scss";
 export default function NewMedicalRecord(props) {
+  const { userId } = useParams();
   const { onClose, selectedValue, open } = props;
+
+  // useEffect(() => {
+    // const authenticatedUser = JSON.parse(localStorage.getItem("user"));
+    // if (authenticatedUser) setUser(authenticatedUser);
+    // axios.get(`/medical-records/${userId}`).then((response) => {
+    //   setRecords(response?.data?.result?.records || []);
+    // });
+  // }, []);
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -19,7 +29,7 @@ export default function NewMedicalRecord(props) {
 
   const createMedicalRecord = async (values) => {
     try {
-      const { userId } = JSON.parse(localStorage.getItem("user"));
+      console.log('values', values);
       await axios.post(`/medical-records/${userId}`, values);
     } catch (error) {
       console.log(error);
@@ -35,7 +45,7 @@ export default function NewMedicalRecord(props) {
     createAt: Yup.string().required("Required"),
     pill: Yup.string().required("Required"),
     quantity: Yup.string().required("Required"),
-    timesperday: Yup.date().required("Required"),
+    timeperday: Yup.date().required("Required"),
     dayofsurgery: Yup.date().required("Required"),
   });
 
@@ -52,14 +62,14 @@ export default function NewMedicalRecord(props) {
           createAt: "",
           pill: "",
           quantity: "",
-          timesperday: "",
+          timeperday: "",
           dayofsurgery: "",
         }}
-        validationSchema={MedicalSchema}
-        validate={() => {
-          const errors = {};
-          return errors;
-        }}
+        // validationSchema={MedicalSchema}
+        // validate={() => {
+        //   const errors = {};
+        //   return errors;
+        // }}
         onSubmit={createMedicalRecord}
       >
         {({
@@ -129,13 +139,13 @@ export default function NewMedicalRecord(props) {
                 />
                 <Input
                   type="text"
-                  name="timesperday"
+                  name="timeperday"
                   label="Times per day"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.timesperday}
-                  error={!!errors.timesperday}
-                  helperText={errors.timesperday}
+                  value={values.timeperday}
+                  error={!!errors.timeperday}
+                  helperText={errors.timeperday}
                 />
               </div>
             )}
@@ -172,7 +182,7 @@ export default function NewMedicalRecord(props) {
               helperText={errors.emailDoctor}
             />
             <Input
-              type="datetime-local"
+              type="date"
               name="createAt"
               label="Create At"
               onChange={handleChange}

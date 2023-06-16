@@ -1,8 +1,7 @@
 import * as React from "react";
-import Popover from "@mui/material/Popover";
 import classes from './Popover.module.scss';
 
-export default function BasicPopover(props) {
+export default function Popover(props) {
   const { renderContainer, content, open } = props;
 
   return (

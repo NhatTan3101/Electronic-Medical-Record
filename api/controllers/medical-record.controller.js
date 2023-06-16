@@ -3,34 +3,65 @@ import Response from "../models/response.model.js";
 
 export default class MedicalRecordController {
   static async createRecord(req, res) {
-    var {
-      diagnoseDisease,
-      symptom,
-      treatment,
-      doctor,
-      emailDoctor,
-      createAt,
-      pill,
-      quantity,
-      timeperday,
-      dayofsurgery,
-    } = req.body;
+    try {
+      var {
+        diagnoseDisease,
+        symptom,
+        treatment,
+        doctor,
+        emailDoctor,
+        createAt,
+        pill,
+        quantity,
+        timeperday,
+        dayofsurgery,
+      } = req.body;
 
-    var medicalRecord = {
-      diagnoseDisease,
-      symptom,
-      treatment,
-      doctor,
-      emailDoctor,
-      createAt,
-      pill,
-      quantity,
-      timeperday,
-      dayofsurgery,
-    };
+      const { userId } = req.params;
 
-    await database.ref(`medical-records/${userId}`).push(medicalRecord);
+      var medicalRecord = {
+        diagnoseDisease,
+        symptom,
+        treatment,
+        doctor,
+        emailDoctor,
+        createAt,
+        pill,
+        quantity,
+        timeperday,
+        dayofsurgery,
+      };
+      console.log("test", req.body.diagnoseDisease);
+      await database.ref(`users/${userId}/records`).push(medicalRecord);
 
-    res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
+      res.status(200).json(new Response(102, "ok", { isSuccessfull: true }));
+    } catch (error) {
+      res
+        .status(500)
+        .json(
+          new Response(102, error?.message || "Error server !", {
+            isSuccessfull: false,
+          })
+        );
+    }
+  }
+
+  static async getRecord(req, res) {
+    const { userId } = req.params;
+
+    const data = await database.ref(`users/${userId}/records`).once("value");
+    const raws = data.val();
+    const records = [];
+
+    for (const key in raws) {
+      const raw = raws[key];
+      if (key) {
+        records.push({ ...raw, userId: key });
+      }
+    }
+
+    res
+      .status(200)
+      .json(new Response(102, "error", { isSuccessfull: true, records }));
   }
 }

@@ -1,37 +1,21 @@
+import classes from "../medicalhistory/MedicalHistory.module.scss";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
-import NewMedicalRecord from "../../components/new-medical-record/NewMedicalRecord";
-import classes from "./MedicalHistory.module.scss";
-import ButtonInfor from "../../common/button/ButtonInfor";
+import React, { useEffect } from "react";
 import MedicalRecord from "../../components/medical-record/MedicalRecord";
-import { useParams } from "react-router-dom";
 import axios from "../../services/axios/axios.service";
 
-const MedicalHistory = () => {
-  const { userId } = useParams();
-  const [user, setUser] = useState(null);
-  const [open, setOpen] = React.useState(false);
+const MyMedicalHistory = () => {
   const [records, setRecords] = React.useState([]);
-
   useEffect(() => {
-    const authenticatedUser = JSON.parse(localStorage.getItem("user"));
-    if (authenticatedUser) setUser(authenticatedUser);
+    const { userId } = JSON.parse(localStorage.getItem("user"));
     axios.get(`/medical-records/${userId}`).then((response) => {
-      setRecords(response?.data?.result?.records || []);
-    });
+        setRecords(response?.data?.result?.records || []);
+      });
   }, []);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div className={classes.container}>
@@ -66,17 +50,9 @@ const MedicalHistory = () => {
             </Accordion>
           ))
         )}
-        {user?.role === "doctor" && (
-          <div className={classes.createRecord}>
-            <ButtonInfor variant="contained" onClick={handleClickOpen}>
-              New Medical Record
-            </ButtonInfor>
-          </div>
-        )}
-        <NewMedicalRecord open={open} onClose={handleClose}/>
       </div>
     </div>
   );
 };
 
-export default MedicalHistory;
+export default MyMedicalHistory;

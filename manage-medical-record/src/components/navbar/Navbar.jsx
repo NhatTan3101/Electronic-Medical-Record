@@ -18,7 +18,7 @@ import { alpha, styled } from "@mui/material/styles";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import BasicPopover from "../../common/popover/Popover";
+import Popover from "../../common/popover/Popover";
 import axios from "../../services/axios/axios.service";
 import AvatarItem from "../avatars/AvatarItem/AvatarItem.avatar";
 import UserAvatar from "../avatars/UserAvatar/UserAvatar.avatar";
@@ -223,7 +223,7 @@ export default function Navbar() {
             EMRS
           </Typography>
           {user?.role === "doctor" && (
-            <BasicPopover
+            <Popover
               open={!!keyword}
               renderContainer={() => (
                 <div>
@@ -242,11 +242,13 @@ export default function Navbar() {
               content={
                 <div>
                   {searchedUsers.map((searchedUser, index) => (
-                    <AvatarItem
-                      key={index}
-                      name={searchedUser?.name}
-                      code={searchedUser?.mabhyt}
-                    />
+                    <Link key={index} to={`/history/${searchedUser?.userId}`} className={classes.linkToPage} onClick={()=>setKeyword(!keyword)}>
+                      <AvatarItem
+                        key={index}
+                        name={searchedUser?.name}
+                        code={searchedUser?.mabhyt}
+                      />
+                    </Link>
                   ))}
                 </div>
               }
@@ -277,7 +279,7 @@ export default function Navbar() {
             ) : user.role === "patient" ? (
               <>
                 <Link to="/history" className={classes.linkToPage}>
-                  Medical History
+                  My Medical History
                 </Link>
               </>
             ) : (
