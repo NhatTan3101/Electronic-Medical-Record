@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
+import { configSocket } from "./socket.config.js";
 
 export function configLibraries(app) {
   dotenv.config({ path: './.dev.env' });
@@ -14,4 +15,5 @@ export function configLibraries(app) {
   //   next(req, res);
   // });
   app.use(bodyParser.json());
+  configSocket(app);
 }

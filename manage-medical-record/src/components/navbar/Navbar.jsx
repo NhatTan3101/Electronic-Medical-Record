@@ -218,7 +218,7 @@ export default function Navbar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "530" }}
+            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "530", marginRight: 3 }}
           >
             EMRS
           </Typography>

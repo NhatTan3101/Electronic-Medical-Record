@@ -8,6 +8,7 @@ import Register from "../pages/register/Register";
 import About from "../pages/about/About";
 import MedicalHistory from "../pages/medicalhistory/MedicalHistory";
 import MyMedicalHistory from "../pages/my-medical-history/MyMedicalHistory";
+import Chatbox from "../pages/chatbox/Chatbox";
 import Profile from "../pages/profile/Profile";
 import classes from "./Router.module.scss";
 
@@ -51,6 +52,10 @@ export default createBrowserRouter([
       {
         path: "/history",
         element: <MyMedicalHistory />,
+      },
+      {
+        path: "/chatbox",
+        element: <Chatbox />,
       },
     ],
   },

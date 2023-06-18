@@ -6,19 +6,24 @@ import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import axios from "../../services/axios/axios.service";
 import classes from "./Profile.module.scss";
+import UserAvatar from "../../components/avatars/UserAvatar/UserAvatar.avatar";
+import { InvisibleDivider } from "../../components/dividers/InvisibleDivider/InvisibleDivider.divider";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [image, setImage] = useState(null);
+
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   };
+
   useEffect(() => {
     const authenticatedUser = localStorage.getItem("user");
     if (authenticatedUser) setUser(JSON.parse(authenticatedUser));
   }, []);
+
   const update = async (values) => {
     try {
       const { userId } = JSON.parse(localStorage.getItem("user"));
@@ -27,6 +32,7 @@ const Profile = () => {
       console.log(error);
     }
   };
+
   const UpdateSchema = Yup.object().shape({
     mabhyt: Yup.string()
       .max(16, "Health insurance code syntax has 16 characters")
@@ -41,34 +47,20 @@ const Profile = () => {
         <p>Manage profile information for account security</p>
         <Divider className={classes.divider} />
         <Grid container spacing={2}>
-          <Grid item sm={12} md={9} xl={6}>
+          <Grid item sm={12} md={6} xl={6}>
             <div className={classes.personalInfor}>
-              <table>
-                <tr>
-                  <td>
-                    <label>Fullname</label>
-                  </td>
-                  <td>
-                    <label>{user?.name}</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Email</label>
-                  </td>
-                  <td>
-                    <label>{user?.email}</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Role</label>
-                  </td>
-                  <td>
-                    <label>{user?.role}</label>
-                  </td>
-                </tr>
-              </table>
+              <div className={classes.infor}>
+                <div className={classes.fieldName}>Fullname</div>
+                <span>: {user?.name}</span>
+              </div>
+              <div className={classes.infor}>
+                <div className={classes.fieldName}>Email</div>
+                <span>: {user?.email}</span>
+              </div>
+              <div className={classes.infor}>
+                <div className={classes.fieldName}>Role</div>
+                <span>: {user?.role}</span>
+              </div>
               <Formik
                 initialValues={{ mabhyt: "" }}
                 validationSchema={UpdateSchema}
@@ -91,7 +83,7 @@ const Profile = () => {
                   handleSubmit,
                   isSubmitting,
                 }) => (
-                  <form onSubmit={handleSubmit}>
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     {user?.role === "patient" ? (
                       <div className={classes.inline}>
                         <Input
@@ -109,6 +101,7 @@ const Profile = () => {
                     ) : (
                       <>abc</>
                     )}
+                    <InvisibleDivider />
                     <div>
                       <ButtonInfor
                         type="submit"
@@ -124,14 +117,12 @@ const Profile = () => {
             </div>
           </Grid>
           {/* <Divider orientation="vertical" flexItem /> */}
-          <Grid item sm={12} md={3} xl={6}>
+          <Grid item sm={12} md={6} xl={6}>
             {user?.image ? (
               <Avatar className={classes.avatar} src={user?.image} />
             ) : (
-              <Avatar className={classes.avatar} src="/broken-image.jpg" />
+              <UserAvatar>{user?.name}</UserAvatar>
             )}
-            <input type="file" onChange={onImageChange} />
-            abc
           </Grid>
         </Grid>
       </div>
