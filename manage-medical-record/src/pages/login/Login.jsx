@@ -12,6 +12,8 @@ import classes from "./Login.module.scss";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
@@ -24,18 +26,14 @@ const Login = () => {
         password: values.password,
       });
 
-      if (res.data.result.isValid) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify(res.data?.result?.user || "")
-        );
-        navigate("/");
-      } else {
-        setError("Your email or password is incorrect!");
-      }
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data?.result || "")
+      );
+
+      navigate("/");
     } catch (err) {
-      setError(err?.message || "Unknown error!");
-      console.log(err);
+      setError(err?.response?.data?.message || err?.message || "Unknown error !");
     }
   };
 
@@ -44,7 +42,7 @@ const Login = () => {
       <IntroductionForm>
         <div className={classes.loginDetail}>
           <h2>Login</h2>
-          {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert sx={{ margin: "10px 0" }} severity="error">{error}</Alert>}
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
@@ -67,7 +65,10 @@ const Login = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setError('');
+                  }}
                   onBlur={handleBlur}
                   value={values.email}
                   error={!!errors.email}
@@ -78,7 +79,10 @@ const Login = () => {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setError('');
+                  }}
                   onBlur={handleBlur}
                   value={values.password}
                   error={!!errors.password}

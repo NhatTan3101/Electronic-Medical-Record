@@ -4,6 +4,7 @@ import medicalRecordRouter from "./routes/medical-record.route.js";
 import messageRouter from "./routes/message.route.js";
 import { configLibraries } from "./configs/lib.config.js";
 import crypto from 'crypto';
+import { authenticate } from "./middlewares/authentication.middleware.js";
 
 
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 /** Config libraries */
 configLibraries(app);
 
+app.use(authenticate);
 app.use("/api", userRouter);
 app.use("/api", medicalRecordRouter);
 app.use("/api", messageRouter);

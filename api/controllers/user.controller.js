@@ -1,35 +1,56 @@
-import { database } from "../databases/firebase.database.js";
+import { createUser, database, signIn } from "../databases/firebase.database.js";
 import ResponseError from "../models/response-error.model.js";
 import Response from "../models/response.model.js";
 import UserModel from "../models/user.model.js";
 
 export default class UserController {
   static async login(req, res) {
-    const model = new UserModel();
+    try {
+      const { email, password } = req.body;
+      const model = new UserModel();
 
-    const result = await model.findUser(req.body.email, req.body.password);
+      const data = await signIn(email, password);
+      const accessToken = await data.user.getIdToken();
 
-    /** Response data */
-    res.status(200).json({
-      code: 10201,
-      message: "Successfully",
-      result,
-    });
+      const result = await model.findUser(data.user.uid);
+
+      /** Response data */
+      res.status(200).json({
+        code: 10201,
+        message: "Successfully",
+        result: {
+          ...result,
+          accessToken,
+          userId: data.user.uid,
+        },
+      });
+    } catch (error) {
+      /** Response data */
+      res.status(500).json({
+        code: 10201,
+        message: error?.message || "Internal server !",
+      });
+    }
   }
 
   static async register(req, res) {
-    var { email, name, password, role } = req.body;
+    try {
+      const { email, name, password, role } = req.body;
 
-    var user = {
-      email,
-      name,
-      password,
-      role,
-    };
+      const user = {
+        email,
+        role,
+        name,
+      };
 
-    await database.ref("users/").push(user);
+      const data = await createUser(email, password);
 
-    res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
+      await database.ref("users").child(data.uid).update(user);
+
+      res.status(200).json(new Response(102, "Successfully", { isSuccessfull: true }));
+    } catch (error) {
+      res.status(500).json(new Response(102, "Internal server !", { isSuccessfull: true }));
+    }
   }
 
   static async update(req, res) {

@@ -291,7 +291,7 @@ export default function Navbar() {
             )}
           </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
@@ -299,7 +299,7 @@ export default function Navbar() {
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
