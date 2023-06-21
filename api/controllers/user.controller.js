@@ -59,23 +59,21 @@ export default class UserController {
 
     const user = { mabhyt, gender, idcardno, address, birthday, hometown, nation, phonenumber };
 
-    await database.ref(`users/${userId}/patient`).update(user);
+    await database.ref(`users/${userId}`).update(user);
 
     res.status(200).json(new Response(102, "", { isSuccessfull: true }));
   }
 
   static async updateDoctor(req, res) {
-    const { mabhyt } = req.body;
+    const { gender, address, hospital, department, phonenumber } = req.body;
     const { userId } = req.params;
 
-    const user = {
-      mabhyt,
-    };
+    const user = { gender, address, hospital, department, phonenumber };
 
     await database.ref(`users/${userId}`).update(user);
 
-    res.status(200).json(new Response(102, "error", { isSuccessfull: true }));
-  }
+    res.status(200).json(new Response(102, "error", { isSuccessfull: true }))
+  };
 
   static async getUser(req, res) {
     const { userId } = req.params;

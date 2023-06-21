@@ -4,13 +4,14 @@ import Response from "../models/response.model.js";
 export default class MedicalRecordController {
   static async createRecord(req, res) {
     try {
+      // console.log('req,', req.locals.userId);
       var {
         diagnoseDisease,
         symptom,
         treatment,
         doctor,
         emailDoctor,
-        createAt,
+        medicalExamDay,
         pill,
         quantity,
         timeperday,
@@ -25,14 +26,15 @@ export default class MedicalRecordController {
         treatment,
         doctor,
         emailDoctor,
-        createAt,
+        medicalExamDay,
         pill,
         quantity,
         timeperday,
         dayofsurgery,
       };
     
-      await database.ref(`users/${userId}/records`).push(medicalRecord);
+      const data = await database.ref(`users/${userId}/records`).push(medicalRecord);
+      console.log("recordId", data.key);
 
       res.status(200).json(new Response(102, "ok", { isSuccessfull: true }));
     } catch (error) {
