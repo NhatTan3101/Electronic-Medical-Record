@@ -9,7 +9,8 @@ import About from "../pages/about/About";
 import MedicalHistory from "../pages/medicalhistory/MedicalHistory";
 import MyMedicalHistory from "../pages/my-medical-history/MyMedicalHistory";
 import Chatbox from "../pages/chatbox/Chatbox";
-import Profile from "../pages/profile/Profile";
+import PatientProfile from "../pages/profile/patient-profile/PatientProfile";
+import DoctorProfile from "../pages/profile/doctor-profile/DoctorProfile";
 import classes from "./Router.module.scss";
 
 export default createBrowserRouter([
@@ -42,8 +43,12 @@ export default createBrowserRouter([
         element: <About />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "patient-profile",
+        element: <PatientProfile />,
+      },
+      {
+        path: "doctor-profile",
+        element: <DoctorProfile />,
       },
       {
         path: "history/:userId",

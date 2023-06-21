@@ -1,8 +1,6 @@
 .container {
   background-color: #e5e5e5;
-  padding-top: 100px;
-  height: 100%;
-  .formProfile {
+  .inforProfile {
     height: 100%;
     max-width: 70%;
     margin: auto;
@@ -29,16 +27,16 @@
           margin-right: 20px;
         }
       }
-
-      .form {
-        .save {
-        }
-      }
     }
+    .formProfile{
+      margin-top: 50px;
+      height: 100%;
+      .label{
+        height: 40px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: end;
+      }
+        }
   }
-  // .avatarChange {
-  //   background-color: #fff;
-  //   // width: 50%;
-  //   // display: flex;
-  // }
 }

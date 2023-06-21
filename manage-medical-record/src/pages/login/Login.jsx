@@ -1,4 +1,4 @@
-import { Alert } from "@mui/material";
+import  Notification  from "../../common/alert/Notification";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,11 +8,11 @@ import Input from "../../common/input/Input";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 import axios from "../../services/axios/axios.service";
 import classes from "./Login.module.scss";
+import Alert from "../../common/alert/Notification";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().required("Required"),
@@ -25,15 +25,17 @@ const Login = () => {
         email: values.email,
         password: values.password,
       });
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res.data?.result || "")
-      );
-
-      navigate("/");
+      if(res.data?.result){
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data?.result || "")
+        );
+        navigate("/");
+      } else {
+        setMessage("Your email or password is incorrect!");
+      }
     } catch (err) {
-      setError(err?.response?.data?.message || err?.message || "Unknown error !");
+      setMessage(err?.response?.data?.message || err?.message || "Unknown error !");
     }
   };
 
@@ -42,7 +44,7 @@ const Login = () => {
       <IntroductionForm>
         <div className={classes.loginDetail}>
           <h2>Login</h2>
-          {error && <Alert sx={{ margin: "10px 0" }} severity="error">{error}</Alert>}
+          {message && <Alert sx={{ margin: "10px 0" }} severity="error">{message}</Alert>}
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
@@ -65,9 +67,10 @@ const Login = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  fullWidth="true"
                   onChange={(e) => {
                     handleChange(e);
-                    setError('');
+                    setMessage('');
                   }}
                   onBlur={handleBlur}
                   value={values.email}
@@ -78,10 +81,11 @@ const Login = () => {
                   className={classes.inputLogin}
                   type="password"
                   name="password"
+                  fullWidth="true"
                   placeholder="Password"
                   onChange={(e) => {
                     handleChange(e);
-                    setError('');
+                    setMessage('');
                   }}
                   onBlur={handleBlur}
                   value={values.password}

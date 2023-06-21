@@ -102,7 +102,12 @@ export default function Navbar() {
   const handleProfile = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    navigate("/profile");
+    if(user?.role === "doctor"){
+      navigate("/doctor-profile");
+    }
+    if(user?.role === "patient"){
+      navigate("/patient-profile");
+    }
   };
 
   const handleTryNow = () => {
@@ -218,7 +223,11 @@ export default function Navbar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "530", marginRight: 3 }}
+            sx={{
+              display: { xs: "none", sm: "block" },
+              fontWeight: "530",
+              marginRight: 3,
+            }}
           >
             EMRS
           </Typography>
@@ -242,7 +251,12 @@ export default function Navbar() {
               content={
                 <div className={classes.popover}>
                   {searchedUsers.map((searchedUser, index) => (
-                    <Link key={index} to={`/history/${searchedUser?.userId}`} className={classes.linkToPage} onClick={()=>setKeyword(!keyword)}>
+                    <Link
+                      key={index}
+                      to={`/history/${searchedUser?.userId}`}
+                      className={classes.linkToPage}
+                      onClick={() => setKeyword(!keyword)}
+                    >
                       <AvatarItem
                         key={index}
                         name={searchedUser?.name}
@@ -281,11 +295,17 @@ export default function Navbar() {
                 <Link to="/history" className={classes.linkToPage}>
                   My Medical History
                 </Link>
+                <Link to="/patient-profile" className={classes.linkToPage}>
+                  Profile
+                </Link>
               </>
             ) : (
               <>
                 <Link to="/notification" className={classes.linkToPage}>
                   Notification
+                </Link>
+                <Link to="/doctor-profile" className={classes.linkToPage}>
+                  Profile
                 </Link>
               </>
             )}
@@ -293,22 +313,13 @@ export default function Navbar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* <IconButton
               size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton> */}
-            <IconButton
-              size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"

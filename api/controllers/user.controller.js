@@ -49,11 +49,22 @@ export default class UserController {
 
       res.status(200).json(new Response(102, "Successfully", { isSuccessfull: true }));
     } catch (error) {
-      res.status(500).json(new Response(102, "Internal server !", { isSuccessfull: true }));
+      res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }));
     }
   }
 
-  static async update(req, res) {
+  static async updatePatient(req, res) {
+    const { mabhyt, gender, idcardno, address, birthday, hometown, nation, phonenumber } = req.body;
+    const { userId } = req.params;
+
+    const user = { mabhyt, gender, idcardno, address, birthday, hometown, nation, phonenumber };
+
+    await database.ref(`users/${userId}/patient`).update(user);
+
+    res.status(200).json(new Response(102, "", { isSuccessfull: true }));
+  }
+
+  static async updateDoctor(req, res) {
     const { mabhyt } = req.body;
     const { userId } = req.params;
 

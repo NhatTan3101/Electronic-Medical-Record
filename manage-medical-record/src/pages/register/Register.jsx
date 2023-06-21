@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { Alert, MenuItem } from "@mui/material";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,10 +8,12 @@ import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 import axios from "../../services/axios/axios.service";
+import Notification from "../../common/alert/Notification";
 import classes from "./Register.module.scss";
 
 const Register = () => {
   const [passwordType, setPasswordType] = useState("password");
+  const [message, setMessage] = useState("");
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -21,9 +23,17 @@ const Register = () => {
   };
   const register = async (values) => {
     try {
-      await axios.post("/user/register", values);
+      const res = await axios.post("/user/register", {
+        email: values.email,
+        name: values.name,
+        password: values.password,
+        role: values.role,
+      });
+      if (res.data?.result?.isSuccessfull) {
+        setMessage("Register success!");
+      }
     } catch (error) {
-      console.log(error);
+      setMessage(error.response.data.message || "Internal server !");
     }
   };
 
@@ -38,6 +48,11 @@ const Register = () => {
       <IntroductionForm>
         <div className={classes.registerDetail}>
           <h2>Register</h2>
+          {message && (
+            <Alert sx={{ margin: "10px 0" }} severity="success">
+              {message}
+            </Alert>
+          )}
           <Formik
             initialValues={{
               name: "",
@@ -76,6 +91,7 @@ const Register = () => {
                 <Input
                   type="text"
                   name="name"
+                  fullWidth="true"
                   label="Fullname"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -86,6 +102,7 @@ const Register = () => {
                 <Input
                   type="email"
                   name="email"
+                  fullWidth="true"
                   label="Email"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -96,6 +113,7 @@ const Register = () => {
                 <Input
                   type={passwordType}
                   name="password"
+                  fullWidth="true"
                   label="Password"
                   onClick={() => togglePassword()}
                   onChange={handleChange}
@@ -105,7 +123,11 @@ const Register = () => {
                   helperText={errors.password}
                 />
                 <div className={classes.buttonInfor}>
-                  <ButtonInfor fullWidth="true" type="submit" disabled={isSubmitting}>
+                  <ButtonInfor
+                    fullWidth="true"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
                     Create an account
                   </ButtonInfor>
                 </div>

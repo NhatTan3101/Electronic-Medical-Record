@@ -8,6 +8,7 @@ const Input = ({
   type,
   onChange,
   onBlur,
+  fullWidth,
   label,
   helperText,
   error,
@@ -20,7 +21,7 @@ const Input = ({
       type={type}
       onChange={onChange}
       onBlur={onBlur}
-      fullWidth
+      fullWidth={fullWidth}
       label={label}
       variant="outlined"
       error={error}
