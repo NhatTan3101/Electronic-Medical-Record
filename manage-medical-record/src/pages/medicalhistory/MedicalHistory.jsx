@@ -33,6 +33,10 @@ const MedicalHistory = () => {
     setOpen(false);
   };
 
+  const handleAddRecord = (record) => {
+    setRecords([...records, record]);
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.record}>
@@ -47,7 +51,7 @@ const MedicalHistory = () => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>{record?.createAt}</Typography>
+                <Typography>{record?.medicalExamDay}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <MedicalRecord
@@ -56,7 +60,7 @@ const MedicalHistory = () => {
                   treatment={record?.treatment}
                   doctor={record?.doctor}
                   emailDoctor={record?.emailDoctor}
-                  createAt={record?.createAt}
+                  medicalExamDay={record?.medicalExamDay}
                   pill={record?.pill}
                   quantity={record?.quantity}
                   timeperday={record?.timeperday}
@@ -73,7 +77,7 @@ const MedicalHistory = () => {
             </ButtonInfor>
           </div>
         )}
-        <NewMedicalRecord open={open} onClose={handleClose} userId={userId}/>
+        <NewMedicalRecord open={open} handleAddRecord={handleAddRecord} onClose={handleClose} userId={userId} />
       </div>
     </div>
   );

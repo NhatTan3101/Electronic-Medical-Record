@@ -14,6 +14,7 @@ import classes from "./Register.module.scss";
 const Register = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -23,17 +24,12 @@ const Register = () => {
   };
   const register = async (values) => {
     try {
-      const res = await axios.post("/user/register", {
-        email: values.email,
-        name: values.name,
-        password: values.password,
-        role: values.role,
-      });
-      if (res.data?.result?.isSuccessfull) {
-        setMessage("Register success!");
-      }
+      await axios.post("/user/register", values);
+      setSeverity("success");
+      setMessage("Register success!");
     } catch (error) {
-      setMessage(error.response.data.message || "Internal server !");
+      setSeverity("error");
+      setMessage(error?.response?.data?.message || "Internal server !");
     }
   };
 
@@ -49,7 +45,7 @@ const Register = () => {
         <div className={classes.registerDetail}>
           <h2>Register</h2>
           {message && (
-            <Alert sx={{ margin: "10px 0" }} severity="success">
+            <Alert sx={{ margin: "10px 0" }} severity={severity}>
               {message}
             </Alert>
           )}

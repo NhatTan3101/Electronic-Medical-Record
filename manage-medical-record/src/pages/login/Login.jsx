@@ -31,8 +31,6 @@ const Login = () => {
           JSON.stringify(res.data?.result || "")
         );
         navigate("/");
-      } else {
-        setMessage("Your email or password is incorrect!");
       }
     } catch (err) {
       setMessage(err?.response?.data?.message || err?.message || "Unknown error !");

@@ -14,7 +14,7 @@ const MedicalRecord = ({
   treatment,
   doctor,
   emailDoctor,
-  createAt,
+  medicalExamDay,
   pill,
   quantity,
   timeperday,
@@ -42,7 +42,7 @@ const MedicalRecord = ({
             <TableCell align="left">Treatment</TableCell>
             <TableCell align="left">Doctor</TableCell>
             <TableCell align="left">Email Doctor</TableCell>
-            <TableCell align="left">Create At</TableCell>
+            <TableCell align="left">Medical examination day</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -56,65 +56,69 @@ const MedicalRecord = ({
             >
               {treatment}
             </TableCell>
-            <Popover
-              id="mouse-over-popover"
-              sx={{
-                pointerEvents: "none",
-              }}
-              open={open}
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              onClose={handlePopoverClose}
-              disableRestoreFocus
-            >
-              {treatment === "take medicine" ? (
-                <Table sx={{ minWidth: 250 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="left">Pill</TableCell>
-                      <TableCell align="left">Quantity</TableCell>
-                      <TableCell align="left">Time per day</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center">{pill}</TableCell>
-                      <TableCell align="center">{quantity}</TableCell>
-                      <TableCell align="center">{timeperday}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              ) : (
-                treatment === "surgery" && (
-                  <>
-                    <Table sx={{ minWidth: 250 }} aria-label="simple table">
+            {treatment === "take medicine" && (
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                {treatment === "take medicine" ? (
+                  <Table sx={{ minWidth: 250 }} aria-label="simple table">
+                    <TableHead>
                       <TableRow>
-                        <TableCell align="left">Day of surgery</TableCell>
+                        <TableCell align="left">Pill</TableCell>
+                        <TableCell align="left">Quantity</TableCell>
+                        <TableCell align="left">Time per day</TableCell>
                       </TableRow>
+                    </TableHead>
+                    <TableBody>
                       <TableRow
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell align="left">{dayofsurgery}</TableCell>
+                        <TableCell align="center">{pill}</TableCell>
+                        <TableCell align="center">{quantity}</TableCell>
+                        <TableCell align="center">{timeperday}</TableCell>
                       </TableRow>
-                    </Table>
-                  </>
-                )
-              )}
-            </Popover>
+                    </TableBody>
+                  </Table>
+                ) : (
+                  treatment === "surgery" && (
+                    <>
+                      <Table sx={{ minWidth: 250 }} aria-label="simple table">
+                        <TableRow>
+                          <TableCell align="left">Day of surgery</TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell align="left">{dayofsurgery}</TableCell>
+                        </TableRow>
+                      </Table>
+                    </>
+                  )
+                )}
+              </Popover>
+            )}
             <TableCell align="left">{doctor}</TableCell>
             <TableCell align="left">{emailDoctor}</TableCell>
-            <TableCell align="left">{createAt}</TableCell>
+            <TableCell align="left">{medicalExamDay}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

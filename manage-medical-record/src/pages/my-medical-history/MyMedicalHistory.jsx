@@ -31,7 +31,7 @@ const MyMedicalHistory = () => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>{record?.createAt}</Typography>
+                <Typography>{record?.medicalExamDay}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <MedicalRecord
@@ -40,7 +40,7 @@ const MyMedicalHistory = () => {
                   treatment={record?.treatment}
                   doctor={record?.doctor}
                   emailDoctor={record?.emailDoctor}
-                  createAt={record?.createAt}
+                  medicalExamDay={record?.medicalExamDay}
                   pill={record?.pill}
                   quantity={record?.quantity}
                   timeperday={record?.timeperday}

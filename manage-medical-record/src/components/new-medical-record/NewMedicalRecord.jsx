@@ -11,7 +11,7 @@ import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
 import classes from "./NewMedicalRecord.module.scss";
 export default function NewMedicalRecord(props) {
-  const { onClose, selectedValue, open, userId } = props;
+  const { onClose, selectedValue, open, userId, handleAddRecord } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -19,6 +19,7 @@ export default function NewMedicalRecord(props) {
 
   const createMedicalRecord = async (values) => {
     try {
+      handleAddRecord(values);
       await axios.post(`/medical-records/${userId}`, values);
     } catch (error) {
       console.log(error);
@@ -28,10 +29,10 @@ export default function NewMedicalRecord(props) {
   const MedicalSchema = Yup.object().shape({
     diagnoseDisease: Yup.string().required("Required"),
     symptom: Yup.string().required("Required"),
-    treatment: Yup.string().required("Required"), 
+    treatment: Yup.string().required("Required"),
     doctor: Yup.string().required("Required"),
     emailDoctor: Yup.string().required("Required"),
-    createAt: Yup.string().required("Required"),
+    medicalExamDay: Yup.string().required("Required"),
     pill: Yup.string().required("Required"),
     quantity: Yup.string().required("Required"),
     timeperday: Yup.date().required("Required"),
@@ -48,7 +49,7 @@ export default function NewMedicalRecord(props) {
           treatment: "take medicine",
           doctor: "",
           emailDoctor: "",
-          createAt: "",
+          medicalExamDay: "",
           pill: "",
           quantity: "",
           timeperday: "",
@@ -64,16 +65,14 @@ export default function NewMedicalRecord(props) {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form
-            className={classes.container}
-            onSubmit={handleSubmit}
-          >
+          <form className={classes.container} onSubmit={handleSubmit}>
             <Input
               type="text"
               name="diagnoseDisease"
               label="Diagnose disease"
               onChange={handleChange}
               onBlur={handleBlur}
+              fullWidth="true"
               value={values.diagnoseDisease}
               error={!!errors.diagnoseDisease}
               helperText={errors.diagnoseDisease}
@@ -84,6 +83,7 @@ export default function NewMedicalRecord(props) {
               label="Symptom"
               onChange={handleChange}
               onBlur={handleBlur}
+              fullWidth="true"
               value={values.symptom}
               error={!!errors.symptom}
               helperText={errors.symptom}
@@ -107,6 +107,7 @@ export default function NewMedicalRecord(props) {
                   label="Pill"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  fullWidth="true"
                   value={values.pill}
                   error={!!errors.pill}
                   helperText={errors.pill}
@@ -117,6 +118,7 @@ export default function NewMedicalRecord(props) {
                   label="Quantity"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  fullWidth="true"
                   value={values.quantity}
                   error={!!errors.quantity}
                   helperText={errors.quantity}
@@ -127,6 +129,7 @@ export default function NewMedicalRecord(props) {
                   label="Times per day"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  fullWidth="true"
                   value={values.timeperday}
                   error={!!errors.timeperday}
                   helperText={errors.timeperday}
@@ -140,6 +143,7 @@ export default function NewMedicalRecord(props) {
                 label="Day of surgery"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                fullWidth="true"
                 value={values.dayofsurgery}
                 error={!!errors.dayofsurgery}
                 helperText={errors.dayofsurgery}
@@ -151,6 +155,7 @@ export default function NewMedicalRecord(props) {
               label="Doctor"
               onChange={handleChange}
               onBlur={handleBlur}
+              fullWidth="true"
               value={values.doctor}
               error={!!errors.doctor}
               helperText={errors.doctor}
@@ -161,22 +166,28 @@ export default function NewMedicalRecord(props) {
               label="Email Doctor"
               onChange={handleChange}
               onBlur={handleBlur}
+              fullWidth="true"
               value={values.emailDoctor}
               error={!!errors.emailDoctor}
               helperText={errors.emailDoctor}
             />
             <Input
               type="date"
-              name="createAt"
-              label="Create At"
+              name="medicalExamDay"
+              label="Medical examination day"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.createAt}
-              error={!!errors.createAt}
-              helperText={errors.createAt}
+              fullWidth="true"
+              value={values.medicalExamDay}
+              error={!!errors.medicalExamDay}
+              helperText={errors.medicalExamDay}
             />
             <div className={classes.buttonInfor}>
-              <ButtonInfor type="submit" disabled={isSubmitting} onClick={handleClose}>
+              <ButtonInfor
+                type="submit"
+                disabled={isSubmitting}
+                onClick={handleClose}
+              >
                 Create an account
               </ButtonInfor>
             </div>
