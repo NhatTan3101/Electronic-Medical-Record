@@ -12,6 +12,8 @@ import Chatbox from "../pages/chatbox/Chatbox";
 import PatientProfile from "../pages/profile/patient-profile/PatientProfile";
 import DoctorProfile from "../pages/profile/doctor-profile/DoctorProfile";
 import classes from "./Router.module.scss";
+import { ScheduleCalendarPatient } from "../pages/schedule-calendar/schedule-calendar-patient/ScheduleCalendarPatient";
+import { ScheduleCalendarDoctor } from "../pages/schedule-calendar/schedule-calendar-doctor/ScheduleCalendarDoctor";
 
 export default createBrowserRouter([
   {
@@ -51,7 +53,7 @@ export default createBrowserRouter([
         element: <DoctorProfile />,
       },
       {
-        path: "history/:userId",
+        path: "history/:userId/:recordId",
         element: <MedicalHistory />,
       },
       {
@@ -61,6 +63,14 @@ export default createBrowserRouter([
       {
         path: "/chatbox",
         element: <Chatbox />,
+      },
+      {
+        path: "/schedule-calendar/patient",
+        element: <ScheduleCalendarPatient />,
+      },
+      {
+        path: "/schedule-calendar/doctor",
+        element: <ScheduleCalendarDoctor />,
       },
     ],
   },

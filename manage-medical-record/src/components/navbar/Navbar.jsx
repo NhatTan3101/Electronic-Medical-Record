@@ -102,10 +102,10 @@ export default function Navbar() {
   const handleProfile = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    if(user?.role === "doctor"){
+    if (user?.role === "doctor") {
       navigate("/doctor-profile");
     }
-    if(user?.role === "patient"){
+    if (user?.role === "patient") {
       navigate("/patient-profile");
     }
   };
@@ -253,7 +253,7 @@ export default function Navbar() {
                   {searchedUsers.map((searchedUser, index) => (
                     <Link
                       key={index}
-                      to={`/history/${searchedUser?.userId}`}
+                      to={`/history/${searchedUser?.userId}/${searchedUser?.medical_record?.recordId}`}
                       className={classes.linkToPage}
                       onClick={() => setKeyword(!keyword)}
                     >
@@ -298,6 +298,12 @@ export default function Navbar() {
                 <Link to="/patient-profile" className={classes.linkToPage}>
                   Profile
                 </Link>
+                <Link
+                  to="/schedule-calendar/patient"
+                  className={classes.linkToPage}
+                >
+                  Schedule Appointment
+                </Link>
               </>
             ) : (
               <>
@@ -306,6 +312,12 @@ export default function Navbar() {
                 </Link>
                 <Link to="/doctor-profile" className={classes.linkToPage}>
                   Profile
+                </Link>
+                <Link
+                  to="/schedule-calendar/doctor"
+                  className={classes.linkToPage}
+                >
+                  Schedule Appointment
                 </Link>
               </>
             )}

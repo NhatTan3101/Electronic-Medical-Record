@@ -22,19 +22,20 @@ function stringToColor(string) {
   return color;
 }
 
-function stringAvatar(name) {
+function stringAvatar(name, sx) {
   return {
     sx: {
       bgcolor: stringToColor(name),
-      fontSize: '1rem'
+      fontSize: '1rem',
+      ...sx,
     },
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
 }
 
 export default function UserAvatar(props) {
-  const { children } = props;
-  if (children?.length) return <Avatar {...stringAvatar(children)} />;
+  const { children, sx } = props;
+  if (children?.length) return <Avatar {...stringAvatar(children, sx)} />;
 
   return '';
 }

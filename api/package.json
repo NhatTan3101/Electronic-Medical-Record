@@ -16,6 +16,7 @@
     "firebase": "^9.22.0",
     "firebase-admin": "^11.8.0",
     "nodemon": "^2.0.22",
-    "socket.io": "^4.6.2"
+    "socket.io": "^4.6.2",
+    "uuid": "^9.0.0"
   }
 }

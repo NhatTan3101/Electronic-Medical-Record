@@ -12,6 +12,7 @@ const Input = ({
   label,
   helperText,
   error,
+  InputLabelProps,
 }) => {
   return (
     <TextField
@@ -28,6 +29,7 @@ const Input = ({
       helperText={helperText}
       size="small"
       sx={{mb: '10px'}}
+      InputLabelProps={InputLabelProps}
     />
   );
 };

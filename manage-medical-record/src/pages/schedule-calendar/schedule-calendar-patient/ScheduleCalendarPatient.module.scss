@@ -1,0 +1,23 @@
+.scheduleCalendar {
+  width: 100%;
+  min-height: 100%;
+  padding: 30px;
+
+  .header {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .body {
+    width: 100%;
+  }
+}
+.appointmentForm {
+  padding: 10px 24px;
+  color: red;
+  .makeButton {
+    display: flex;
+    justify-content: end;
+    margin: 10px 0px;
+  }
+}

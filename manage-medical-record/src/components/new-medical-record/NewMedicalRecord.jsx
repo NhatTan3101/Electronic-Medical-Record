@@ -11,7 +11,7 @@ import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
 import classes from "./NewMedicalRecord.module.scss";
 export default function NewMedicalRecord(props) {
-  const { onClose, selectedValue, open, userId, handleAddRecord } = props;
+  const { onClose, selectedValue, open, userId, recordId, handleAddRecord } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -20,7 +20,7 @@ export default function NewMedicalRecord(props) {
   const createMedicalRecord = async (values) => {
     try {
       handleAddRecord(values);
-      await axios.post(`/medical-records/${userId}`, values);
+      await axios.post(`/medical-records/${userId}/${recordId}`, values);
     } catch (error) {
       console.log(error);
     }
@@ -55,6 +55,7 @@ export default function NewMedicalRecord(props) {
           timeperday: "",
           dayofsurgery: "",
         }}
+        // validationSchema={MedicalSchema}
         onSubmit={createMedicalRecord}
       >
         {({

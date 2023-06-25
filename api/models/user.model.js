@@ -8,7 +8,7 @@ export default class UserModel {
   async findUser(userId) {
     /** Get all users from firebase */
     const data = await this.ref.child(userId).once("value");
-
+    
     const users = data.val();
 
     return users;
@@ -24,9 +24,7 @@ export default class UserModel {
 
     for (const key in users) {
       const user = users[key];
-      if (user?.mabhyt?.includes(keyword)) {
-        
-      console.log('user', user ,keyword)
+      if (user?.mabhyt?.includes(keyword) || !keyword) {
         searchedUsers.push({...user, userId: key });
       }
     }

@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import axios from "../../services/axios/axios.service";
 
 const MedicalHistory = () => {
-  const { userId } = useParams();
+  const { userId, recordId } = useParams();
   const [user, setUser] = useState(null);
   const [open, setOpen] = React.useState(false);
   const [records, setRecords] = React.useState([]);
@@ -35,7 +35,7 @@ const MedicalHistory = () => {
 
   const handleAddRecord = (record) => {
     setRecords([...records, record]);
-  }
+  };
 
   return (
     <div className={classes.container}>
@@ -77,7 +77,13 @@ const MedicalHistory = () => {
             </ButtonInfor>
           </div>
         )}
-        <NewMedicalRecord open={open} handleAddRecord={handleAddRecord} onClose={handleClose} userId={userId} />
+        <NewMedicalRecord
+          open={open}
+          handleAddRecord={handleAddRecord}
+          onClose={handleClose}
+          userId={userId}
+          recordId={recordId}
+        />
       </div>
     </div>
   );
