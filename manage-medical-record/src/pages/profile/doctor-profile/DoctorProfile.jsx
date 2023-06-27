@@ -1,4 +1,4 @@
-import { Alert, Divider, Grid, MenuItem } from "@mui/material";
+import { Alert, Box, Divider, MenuItem, Slide, Snackbar, Stack } from "@mui/material";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
@@ -6,11 +6,26 @@ import ButtonInfor from "../../../common/button/ButtonInfor";
 import Input from "../../../common/input/Input";
 import InputSelect from "../../../common/inputselect/InputSelect";
 import axios from "../../../services/axios/axios.service";
-import classes from "../patient-profile/PatientProfile.module.scss";
+import classes from "../doctor-profile/DoctorProfile.module.scss";
+
+const TransitionRight = (props) => {
+  return <Slide {...props} direction="right" />;
+};
 
 const DoctorProfile = () => {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const [transition, setTransition] = useState(undefined);
+
+  const handleClick = (Transition) => () => {
+    setTransition(() => Transition);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const authenticatedUser = localStorage.getItem("user");
@@ -38,9 +53,11 @@ const DoctorProfile = () => {
   };
 
   const UpdateSchema = Yup.object().shape({
-    phonenumber: Yup.string()
-      .max(10, "Phone number has 10 number")
-      .min(10, "Phone number has 10 number"),
+    phonenumber: Yup.number()
+      .typeError("That doesn't look like a phone number")
+      .positive("A phone number can't start with a minus")
+      .integer("A phone number can't include a decimal point")
+      .min(10),
   });
 
   return (
@@ -88,94 +105,113 @@ const DoctorProfile = () => {
                 isSubmitting,
               }) => (
                 <form className={classes.form} onSubmit={handleSubmit}>
-                  <Grid container spacing={2}>
-                    <Grid item sm={12} md={4} xl={6}>
-                      <div>
-                        <div className={classes.label}>Gender</div>
-                        <div className={classes.label}>Address</div>
-                        <div className={classes.label}>Hospital</div>
-                        <div className={classes.label}>Department</div>
-                        <div className={classes.label}>Phone number</div>
+                  <Stack direction="row" spacing={3}>
+                    <div className={classes.labelInfor}>Gender</div>
+                    <div className={classes.inputInfor}>
+                      <InputSelect
+                        name="gender"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.gender}
+                        inputLabel="Gender"
+                        error={!!errors.gender}
+                        helperText={errors.gender}
+                      >
+                        <MenuItem value="male">Male</MenuItem>
+                        <MenuItem value="female">Female</MenuItem>
+                      </InputSelect>
                       </div>
-                    </Grid>
-                    <Grid item sm={12} md={4} xl={6}>
-                      <div className={classes.inline}>
-                        <InputSelect
-                          name="gender"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.gender}
-                          inputLabel="Gender"
-                          error={!!errors.gender}
-                          helperText={errors.gender}
-                        >
-                          <MenuItem value="male">Male</MenuItem>
-                          <MenuItem value="female">Female</MenuItem>
-                        </InputSelect>
+                  </Stack>
+                  <Stack direction="row" spacing={3}>
+                    <div className={classes.labelInfor}>Address</div>
+                    <div className={classes.inputInfor}>
+                      <Input
+                        type="text"
+                        name="address"
+                        fullWidth="true"
+                        label="Address"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.address}
+                        error={!!errors.address}
+                        helperText={errors.address}
+                      />
                       </div>
-                      <div className={classes.inline}>
-                        <Input
-                          type="text"
-                          name="address"
-                          fullWidth="true"
-                          label="Address"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.address}
-                          error={!!errors.address}
-                          helperText={errors.address}
-                        />
+                  </Stack>
+                  <Stack direction="row" spacing={3}>
+                    <div className={classes.labelInfor}>Hospital</div>
+                    <div className={classes.inputInfor}>
+                      <Input
+                        type="text"
+                        name="hospital"
+                        fullWidth="true"
+                        label="Hospital"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.hospital}
+                        error={!!errors.hospital}
+                        helperText={errors.hospital}
+                      />
                       </div>
-                      <div className={classes.inline}>
-                        <Input
-                          type="text"
-                          name="hospital"
-                          fullWidth="true"
-                          label="Hospital"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.hospital}
-                          error={!!errors.hospital}
-                          helperText={errors.hospital}
-                        />
+                  </Stack>
+                  <Stack direction="row" spacing={3}>
+                    <div className={classes.labelInfor}>Department</div>
+                    <div className={classes.inputInfor}>
+                      <Input
+                        type="text"
+                        name="department"
+                        fullWidth="true"
+                        label="Department"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.department}
+                        error={!!errors.department}
+                        helperText={errors.department}
+                      />
                       </div>
-                      <div className={classes.inline}>
-                        <Input
-                          type="text"
-                          name="department"
-                          fullWidth="true"
-                          label="Department"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.department}
-                          error={!!errors.department}
-                          helperText={errors.department}
-                        />
-                      </div>
-                      <div className={classes.inline}>
-                        <Input
-                          type="string"
-                          name="phonenumber"
-                          fullWidth="true"
-                          label="Phone Number"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.phonenumber}
-                          error={!!errors.phonenumber}
-                          helperText={errors.phonenumber}
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                  <div>
+                  </Stack>
+                  <Stack direction="row" spacing={3}>
+                    <div className={classes.labelInfor}>Phone Number</div>
+                    <div className={classes.inputInfor}>
+                    <Input
+                      type="string"
+                      name="phonenumber"
+                      fullWidth="true"
+                      label="Phone Number"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phonenumber}
+                      error={!!errors.phonenumber}
+                      helperText={errors.phonenumber}
+                    />
+                    </div>
+                  </Stack>
+                  <div className={classes.btnUpdate}>
                     <ButtonInfor
                       type="submit"
                       variant="outlined"
                       disabled={!checkChanges(values) || isSubmitting}
+                      onClick={handleClick(TransitionRight)}
                     >
                       Update
                     </ButtonInfor>
                   </div>
+                  <Box sx={{ width: 300 }}>
+                    <Snackbar
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={transition}
+                      key={transition ? transition.name : ""}
+                      autoHideDuration={4000}
+                    >
+                      <Alert
+                        onClose={handleClose}
+                        sx={{ width: "100%" }}
+                      >
+                        {message}
+                      </Alert>
+                    </Snackbar>
+                  </Box>
                 </form>
               )}
             </Formik>

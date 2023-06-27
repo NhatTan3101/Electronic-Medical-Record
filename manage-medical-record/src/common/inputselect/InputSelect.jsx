@@ -21,7 +21,12 @@ const InputSelect = ({
         error={error}
         helperText={helperText}
         size="small"
-        sx={{ mb: "10px" }}
+        sx={{
+          mb: "10px",
+          "& .MuiSelect-select": {
+            backgroundColor: "#fff",
+          },
+        }}
       >
         {children}
       </Select>

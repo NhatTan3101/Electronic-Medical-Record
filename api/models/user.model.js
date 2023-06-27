@@ -14,6 +14,15 @@ export default class UserModel {
     return users;
   }
 
+  async findUserByEmail(email) {
+    /** Get all users from firebase */
+    const data = await this.ref.child(email).once("value");
+    
+    const users = data.val();
+
+    return users;
+  }
+
   async findUsers(keyword) {
     /** Get all users from firebase */
     const data = await this.ref.once("value");

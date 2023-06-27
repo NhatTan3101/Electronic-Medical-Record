@@ -3,6 +3,7 @@ import Response from "../models/response.model.js";
 // import fabricDoctor from "../fabric/doctor.fabric.js";
 // import crypto from 'crypto';
 import MedicalRecordModel from "../models/medical-record.model.js";
+import UserModel from "../models/user.model.js";
 
 export default class MedicalRecordController {
   static async createRecord(req, res) {
@@ -12,13 +13,12 @@ export default class MedicalRecordController {
         diagnoseDisease,
         symptom,
         treatment,
-        doctor,
         emailDoctor,
-        medicalExamDay,
         pill,
         quantity,
         timeperday,
         dayofsurgery,
+        note,
       } = req.body;
 
       const { userId, recordId } = req.params;
@@ -27,13 +27,12 @@ export default class MedicalRecordController {
         diagnoseDisease,
         symptom,
         treatment,
-        doctor,
         emailDoctor,
-        medicalExamDay,
         pill,
         quantity,
         timeperday,
         dayofsurgery,
+        note
       };
 
       // try {
@@ -67,12 +66,14 @@ export default class MedicalRecordController {
   static async getRecord(req, res) {
     try {
       const medical = new MedicalRecordModel();
+      const info = new UserModel();
       const { userId } = req.params;
       const records = await medical.getRecordByUserId(userId);
+      const user = await info.findUser(userId);
 
       res
         .status(200)
-        .json(new Response(102, "success", { isSuccessfull: true, records }));
+        .json(new Response(102, "success", { isSuccessfull: true, records, user }));
     } catch (error) {
       res
         .status(500)

@@ -1,4 +1,3 @@
-import  Notification  from "../../common/alert/Notification";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ import Input from "../../common/input/Input";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 import axios from "../../services/axios/axios.service";
 import classes from "./Login.module.scss";
-import Alert from "../../common/alert/Notification";
+import { Alert } from "@mui/material";
 
 const Login = () => {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { Alert, MenuItem } from "@mui/material";
+import { Alert, MenuItem, Snackbar } from "@mui/material";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,13 +8,13 @@ import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import IntroductionForm from "../../components/containers/IntroductionForm/IntroductionForm";
 import axios from "../../services/axios/axios.service";
-import Notification from "../../common/alert/Notification";
 import classes from "./Register.module.scss";
 
 const Register = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
+  const [open, setOpen] = useState(false);
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -32,6 +32,13 @@ const Register = () => {
       setMessage(error?.response?.data?.message || "Internal server !");
     }
   };
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -45,9 +52,16 @@ const Register = () => {
         <div className={classes.registerDetail}>
           <h2>Register</h2>
           {message && (
-            <Alert sx={{ margin: "10px 0" }} severity={severity}>
-              {message}
-            </Alert>
+            <Snackbar
+              autoHideDuration={3000}
+              open={open}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              onClose={handleClose}
+            >
+              <Alert severity={severity}>
+                {message}
+              </Alert>
+            </Snackbar>
           )}
           <Formik
             initialValues={{
@@ -123,6 +137,7 @@ const Register = () => {
                     fullWidth="true"
                     type="submit"
                     disabled={isSubmitting}
+                    onClick={handleClick}
                   >
                     Create an account
                   </ButtonInfor>

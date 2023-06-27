@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { Alert, Box, MenuItem, Snackbar, Stack } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Formik } from "formik";
@@ -10,8 +10,10 @@ import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
 import classes from "./NewMedicalRecord.module.scss";
+import TextArea from "../../common/text-area/TextArea";
 export default function NewMedicalRecord(props) {
-  const { onClose, selectedValue, open, userId, recordId, handleAddRecord } = props;
+  const { onClose, selectedValue, open, userId, recordId, handleAddRecord } =
+    props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -30,13 +32,7 @@ export default function NewMedicalRecord(props) {
     diagnoseDisease: Yup.string().required("Required"),
     symptom: Yup.string().required("Required"),
     treatment: Yup.string().required("Required"),
-    doctor: Yup.string().required("Required"),
-    emailDoctor: Yup.string().required("Required"),
-    medicalExamDay: Yup.string().required("Required"),
-    pill: Yup.string().required("Required"),
-    quantity: Yup.string().required("Required"),
-    timeperday: Yup.date().required("Required"),
-    dayofsurgery: Yup.date().required("Required"),
+    emailDoctor: Yup.string().email().required("Required"),
   });
 
   return (
@@ -46,16 +42,15 @@ export default function NewMedicalRecord(props) {
         initialValues={{
           diagnoseDisease: "",
           symptom: "",
-          treatment: "take medicine",
-          doctor: "",
+          treatment: null,
           emailDoctor: "",
-          medicalExamDay: "",
           pill: "",
           quantity: "",
           timeperday: "",
           dayofsurgery: "",
+          note: "",
         }}
-        // validationSchema={MedicalSchema}
+        validationSchema={MedicalSchema}
         onSubmit={createMedicalRecord}
       >
         {({
@@ -99,9 +94,10 @@ export default function NewMedicalRecord(props) {
               <MenuItem value="take medicine">Take medicine</MenuItem>
               <MenuItem value="surgery">Surgery</MenuItem>
               <MenuItem value="acupuncture">Acupuncture</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
             </InputSelect>
             {values.treatment === "take medicine" && (
-              <div style={{ display: "flex" }}>
+              <Stack direction="row" spacing={1}>
                 <Input
                   type="text"
                   name="pill"
@@ -135,7 +131,7 @@ export default function NewMedicalRecord(props) {
                   error={!!errors.timeperday}
                   helperText={errors.timeperday}
                 />
-              </div>
+              </Stack>
             )}
             {values.treatment === "surgery" && (
               <Input
@@ -148,19 +144,19 @@ export default function NewMedicalRecord(props) {
                 value={values.dayofsurgery}
                 error={!!errors.dayofsurgery}
                 helperText={errors.dayofsurgery}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             )}
-            <Input
-              type="text"
-              name="doctor"
-              label="Doctor"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              fullWidth="true"
-              value={values.doctor}
-              error={!!errors.doctor}
-              helperText={errors.doctor}
-            />
+            {values.treatment === "other" && (
+              <TextArea
+                onChange={handleChange}
+                name="note"
+                value={values.note}
+                placeholder="Note"
+              />
+            )}
             <Input
               type="email"
               name="emailDoctor"
@@ -171,17 +167,6 @@ export default function NewMedicalRecord(props) {
               value={values.emailDoctor}
               error={!!errors.emailDoctor}
               helperText={errors.emailDoctor}
-            />
-            <Input
-              type="date"
-              name="medicalExamDay"
-              label="Medical examination day"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              fullWidth="true"
-              value={values.medicalExamDay}
-              error={!!errors.medicalExamDay}
-              helperText={errors.medicalExamDay}
             />
             <div className={classes.buttonInfor}>
               <ButtonInfor

@@ -39,7 +39,14 @@ export const ScheduleCalendarDoctor = () => {
   const addSchedule = () => {
     axios.post("/schedule", event).then((response) => {
       // show message
-      setEvents([...events, event]);
+      const name = searchedUsers?.find((user) => event?.patientId === user?.userId)?.name;
+
+      const newEvent = {
+        title: `${event?.note} (${name})`,
+        start: event?.time,
+        end: event?.time,
+      };
+      setEvents([...events, newEvent]);
     });
   };
 

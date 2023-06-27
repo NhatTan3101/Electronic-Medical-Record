@@ -28,7 +28,13 @@ const Input = ({
       error={error}
       helperText={helperText}
       size="small"
-      sx={{mb: '10px'}}
+      sx={{
+        mb: "10px",
+        "& .MuiOutlinedInput-input": {
+          backgroundColor: "#fff",
+          borderRadius: "4px",
+        },
+      }}
       InputLabelProps={InputLabelProps}
     />
   );

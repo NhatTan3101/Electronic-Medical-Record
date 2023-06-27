@@ -6,9 +6,11 @@
     &:focus{
         color: black;
     }
+    &:hover{
+        text-decoration: none;
+    }
 }
 .popover {
     height: 250px;
     overflow: auto;
-    z-index: 10;
 }

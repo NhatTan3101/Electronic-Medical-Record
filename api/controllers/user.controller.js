@@ -24,7 +24,17 @@ export default class UserController {
           userId,
           name: result?.name,
           role: result?.role,
-          email: result?.email
+          email: result?.email,
+          gender: result?.gender,
+          address: result?.address,
+          hospital: result?.hospital,
+          department: result?.department,
+          phonenumber: result?.phonenumber,
+          mabhyt: result?.mabhyt,
+          idcardno: result?.idcardno,
+          birthday: result?.birthday,
+          hometown: result?.hometown,
+          nation: result?.nation,
         },
       });
     } catch (error) {
@@ -53,9 +63,9 @@ export default class UserController {
       await database.ref("users").child(data.uid).update(user);
 
       res.status(200).json(new Response(102, "Successfully", { isSuccessfull: true }));
-      
+
       // await fabricAdmin.registerUser(user.role, data.uid);
-      
+
     } catch (error) {
       res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }));
     }
@@ -101,7 +111,56 @@ export default class UserController {
 
       await database.ref(`users/${userId}`).get(user);
 
-      res.status(200).json(new Response(102, "success", { isSuccessfull: true }));
+      res.status(200).json({
+        code: 10201,
+        message: "Successfully",
+        result: {
+          name: result?.name,
+          role: result?.role,
+          email: result?.email,
+          gender: result?.gender,
+          address: result?.address,
+          hospital: result?.hospital,
+          department: result?.department,
+          phonenumber: result?.phonenumber,
+          mabhyt: result?.mabhyt,
+          idcardno: result?.idcardno,
+          birthday: result?.birthday,
+          hometown: result?.hometown,
+          nation: result?.nation,
+        },
+      });
+    } catch (error) {
+      res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }))
+
+    }
+  }
+
+  static async getUserByEmail(req, res) {
+    try {
+      const { email } = req.body;
+
+      await database.ref(`users/${userId}`).get(user);
+
+      res.status(200).json({
+        code: 10201,
+        message: "Successfully",
+        result: {
+          name: result?.name,
+          role: result?.role,
+          email: result?.email,
+          gender: result?.gender,
+          address: result?.address,
+          hospital: result?.hospital,
+          department: result?.department,
+          phonenumber: result?.phonenumber,
+          mabhyt: result?.mabhyt,
+          idcardno: result?.idcardno,
+          birthday: result?.birthday,
+          hometown: result?.hometown,
+          nation: result?.nation,
+        },
+      });
     } catch (error) {
       res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }))
 

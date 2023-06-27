@@ -14,6 +14,7 @@ import axios from "../../services/axios/axios.service";
 const MedicalHistory = () => {
   const { userId, recordId } = useParams();
   const [user, setUser] = useState(null);
+  const [patient, setPatient] = useState(null);
   const [open, setOpen] = React.useState(false);
   const [records, setRecords] = React.useState([]);
 
@@ -22,8 +23,11 @@ const MedicalHistory = () => {
     if (authenticatedUser) setUser(authenticatedUser);
     axios.get(`/medical-records/${userId}`).then((response) => {
       setRecords(response?.data?.result?.records || []);
+      setPatient(response?.data?.result?.user)
     });
-  }, []);
+  }, [userId, recordId]);
+
+  console.log('test', { userId, recordId });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +45,21 @@ const MedicalHistory = () => {
     <div className={classes.container}>
       <div className={classes.record}>
         <h1>Medical History</h1>
+        <h1>{patient?.name}</h1>
+        {user?.role === "doctor" && (
+          <div className={classes.createRecord}>
+            <ButtonInfor variant="contained" onClick={handleClickOpen}>
+              New Medical Record
+            </ButtonInfor>
+          </div>
+        )}
+        <NewMedicalRecord
+          open={open}
+          handleAddRecord={handleAddRecord}
+          onClose={handleClose}
+          userId={userId}
+          recordId={recordId}
+        />
         {records?.length === 0 ? (
           <Typography>There has been no medical record yet.</Typography>
         ) : (
@@ -70,20 +89,6 @@ const MedicalHistory = () => {
             </Accordion>
           ))
         )}
-        {user?.role === "doctor" && (
-          <div className={classes.createRecord}>
-            <ButtonInfor variant="contained" onClick={handleClickOpen}>
-              New Medical Record
-            </ButtonInfor>
-          </div>
-        )}
-        <NewMedicalRecord
-          open={open}
-          handleAddRecord={handleAddRecord}
-          onClose={handleClose}
-          userId={userId}
-          recordId={recordId}
-        />
       </div>
     </div>
   );
