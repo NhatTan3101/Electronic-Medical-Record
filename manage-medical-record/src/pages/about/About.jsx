@@ -1,72 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./About.module.scss";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import {
+  Hospital1,
+  Hospital2,
+  Hospital3,
+  Hospital4,
+  Hospital5,
+  VisitDoctor1,
+  VisitDoctor2,
+} from "../../components/images";
+import { Grid, Stack } from "@mui/material";
 
 const About = () => {
+  const [isExpand, setIsExpand] = useState(false);
+
+  var settings = {
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    cssEase: "linear",
+    pauseOnHover: true,
+  };
+
   return (
     <div className={classes.container}>
       <div>
         <div className="container">
-          {/* <header className="blog-header py-3">
-            <div className="row flex-nowrap justify-content-between align-items-center">
-              <div className="col-4 pt-1">
-                <a className="text-muted" href="#">
-                  Subscribe
-                </a>
-              </div>
-              <div className="col-4 text-center">
-                <a className="blog-header-logo text-dark" href="#">
-                  Large
-                </a>
-              </div>
-              <div className="col-4 d-flex justify-content-end align-items-center">
-                <a className="text-muted" href="#">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={20}
-                    height={20}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mx-3"
-                  >
-                    <circle cx="10.5" cy="10.5" r="7.5" />
-                    <line x1={21} y1={21} x2="15.8" y2="15.8" />
-                  </svg>
-                </a>
-                <a className="btn btn-sm btn-outline-secondary" href="#">
-                  Sign up
-                </a>
-              </div>
-            </div>
-          </header> */}
           <div className="nav-scroller py-1 mb-2">
             <nav className="nav d-flex justify-content-between">
               <a className="p-2 text-muted" href="#">
-                World
+                Medical Record
               </a>
               <a className="p-2 text-muted" href="#">
-                U.S.
+                Diagnosis
               </a>
               <a className="p-2 text-muted" href="#">
-                Technology
+                Medicine
               </a>
               <a className="p-2 text-muted" href="#">
-                Design
+                Corrective
               </a>
               <a className="p-2 text-muted" href="#">
-                Culture
+                Consensual
               </a>
               <a className="p-2 text-muted" href="#">
-                Business
+                Symptom
               </a>
               <a className="p-2 text-muted" href="#">
                 Politics
               </a>
               <a className="p-2 text-muted" href="#">
-                Opinion
+                Surgery
               </a>
               <a className="p-2 text-muted" href="#">
                 Science
@@ -75,81 +64,146 @@ const About = () => {
                 Health
               </a>
               <a className="p-2 text-muted" href="#">
-                Style
-              </a>
-              <a className="p-2 text-muted" href="#">
-                Travel
+                Clinic
               </a>
             </nav>
           </div>
-          <div className="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-            <div className="col-md-6 px-0">
-              <h1 className="display-4 font-italic">
-                Title of a longer featured blog post
-              </h1>
-              <p className="lead my-3">
-                Multiple lines of text that form the lede, informing new readers
-                quickly and efficiently about what&apos;s most interesting in this
-                post&apos;s contents.
-              </p>
-              <p className="lead mb-0">
-                <a href="#" className="text-white font-weight-bold">
-                  Continue reading...
-                </a>
-              </p>
+          <Slider {...settings}>
+            <div className={classes.banner}>
+              <Hospital1 />
             </div>
+            <div className={classes.banner}>
+              <Hospital2 />
+            </div>
+            <div className={classes.banner}>
+              <Hospital3 />
+            </div>
+            <div className={classes.banner}>
+              <Hospital4 />
+            </div>
+            <div className={classes.banner}>
+              <Hospital5 />
+            </div>
+          </Slider>
+          <div className={classes.title}>
+            <h3 className="display-5 font-weight-bold">
+              Electronic Medical Record Systems
+            </h3>
+            <h5>{`What is an EMR System?`}</h5>
+            <p className="my-3">
+              {`EMR, or electronic medical records, are
+              digitized paper charts that include diagnoses, allergies, medical
+              histories, immunization dates, lab results, medications and
+              physicians' notes.`}
+            </p>
+            <p className="mb-0">
+              {`EMR systems can handle everything from documenting patient data
+              and scheduling appointments to filling prescriptions and verifying
+              insurances. You may have concerns regarding the implementation of
+              an electronic medical records system. But with it, your facility’s
+              productivity and efficiency can reach new heights. You can also
+              gain monetary incentives by adopting these platforms.`}
+            </p>
+            {!isExpand ? (
+              <button
+                onClick={() => setIsExpand(!isExpand)}
+                className={classes.btn}
+              >
+                Continue reading...
+              </button>
+            ) : (
+              <div className={classes.expand}>
+                <button
+                  onClick={() => setIsExpand(!isExpand)}
+                  className={classes.btn}
+                >
+                  Hidden
+                </button>
+                <p>
+                  {`Cars cannot move without wheels. We cannot survive without
+                  oxygen. The world could end if it stops spinning. Similarly,
+                  EMR programs cannot function properly without their essential
+                  elements. And before you invest in an EMR, you should have a
+                  fair idea of what you are getting into. Below we have outlined
+                  some components of EMR systems that are worth keeping in mind.`}
+                </p>
+                <h5>{`Technical Staff`}</h5>
+                <p className="my-3">
+                  {`We know that your primary focus is delivering high-quality
+                  patient care. You won’t achieve it if you spend most of your
+                  time maintaining an EMR system. We advise you to delegate such
+                  technical tasks to someone who understands the interface
+                  thoroughly. As Steve Jobs rightly said, “Great things in
+                  business are never done by one person. They’re done by a team
+                  of people.” That’s why you need to build a team that enables
+                  you to provide patients the care they deserve.`}
+                </p>
+                <h5>{`Infrastructure`}</h5>
+                <p className="my-3">
+                  {`Are your devices compatible with EMR systems? Before you spend
+                  on a product, check if it’s compatible with the hardware you
+                  own, like laptops, printers, tablets, smartphones, PCs and
+                  workstations. You don’t want to end up spending on an app that
+                  will cause additional hardware costs (unless you wish to
+                  upgrade your devices).`}
+                </p>
+                <h5>{`Business Processes`}</h5>
+                <p className="my-3">
+                  {`You should set guidelinesto ensure the smooth running of
+                  medical practices. Compile a document highlighting steps and
+                  instructions involved in maintaining EMR systems. It can
+                  include appointment scheduling, billing and data inputting
+                  procedures. This way, you make it easier for your staff to
+                  resolve issues in no time. They can also refer to files to
+                  gain an in-depth understanding of the app.`}
+                </p>
+                <h5>{`Patient Portals`}</h5>
+                <p className="my-3">
+                  {`EMR programs are not only designed for medical professionals
+                  but also for patients to enhance their experiences. Allow
+                  patients to schedule appointments, contact physicians, request
+                  refills and access test results digitally. With the rise in
+                  Covid-19 cases, patients are opting for virtual instead of
+                  physical visits. According to a survey conducted by HIMSS, 58%
+                  of medical professionals connect with their patients using
+                  mobile-optimized patient portals.`}
+                </p>
+              </div>
+            )}
           </div>
           <div className="row mb-2">
-            <div className="col-md-6">
-              <div className="card flex-md-row mb-4 box-shadow h-md-250">
-                <div className="card-body d-flex flex-column align-items-start">
-                  <strong className="d-inline-block mb-2 text-primary">
-                    World
-                  </strong>
-                  <h3 className="mb-0">
-                    <a className="text-dark" href="#">
-                      Featured post
-                    </a>
-                  </h3>
-                  <div className="mb-1 text-muted">Nov 12</div>
-                  <p className="card-text mb-auto">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content.
-                  </p>
-                  <a href="#">Continue reading</a>
+            <Grid container spacing={2}>
+              <Grid item sm={12} md={6} xl={6}>
+                <div className={classes.poster}>
+                  <VisitDoctor1 />
+                  <div className={classes.letter}>
+                    <Stack direction="row" spacing={30}>
+                      <h5 className="mb-0"> Easy to use</h5>
+                      <span>Nov 12</span>
+                    </Stack>
+                    <p>
+                      Fewer errors compared to paper records. Better and quicker
+                      care. Track results and data over time.
+                    </p>
+                  </div>
                 </div>
-                <img
-                  className="card-img-right flex-auto d-none d-md-block"
-                  data-src="holder.js/200x250?theme=thumb"
-                  alt="Card image cap"
-                />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card flex-md-row mb-4 box-shadow h-md-250">
-                <div className="card-body d-flex flex-column align-items-start">
-                  <strong className="d-inline-block mb-2 text-success">
-                    Design
-                  </strong>
-                  <h3 className="mb-0">
-                    <a className="text-dark" href="#">
-                      Post title
-                    </a>
-                  </h3>
-                  <div className="mb-1 text-muted">Nov 11</div>
-                  <p className="card-text mb-auto">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content.
-                  </p>
-                  <a href="#">Continue reading</a>
+              </Grid>
+              <Grid item sm={12} md={6} xl={6}>
+                <div className={classes.poster}>
+                  <VisitDoctor2 />
+                  <div className={classes.letter}>
+                    <Stack direction="row" spacing={30}>
+                      <h5 className="mb-0"> User-friendly</h5>
+                      <span>April 30</span>
+                    </Stack>
+                    <p>
+                      The system helping providers more effectively diagnose
+                      patients, reduce medical errors, and provide safer care.
+                    </p>
+                  </div>
                 </div>
-                <img
-                  className="card-img-right flex-auto d-none d-md-block"
-                  data-src="holder.js/200x250?theme=thumb"
-                  alt="Card image cap"
-                />
-              </div>
-            </div>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <main role="main" className="container">
@@ -164,9 +218,9 @@ const About = () => {
                   January 1, 2014 by <a href="#">Mark</a>
                 </p>
                 <p>
-                  This blog post shows a few different types of content that&apos;s
-                  supported and styled with Bootstrap. Basic typography, images,
-                  and code are all supported.
+                  This blog post shows a few different types of content
+                  that&apos;s supported and styled with Bootstrap. Basic
+                  typography, images, and code are all supported.
                 </p>
                 <hr />
                 <p>

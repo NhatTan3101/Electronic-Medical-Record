@@ -1,0 +1,52 @@
+.container {
+  height: 100%;
+  .banner {
+    height: 400px;
+    img {
+      width: 100%;
+      position: relative;
+      height: 100%;
+      background-size: 100% 100%;
+      object-fit: initial;
+    }
+    margin-bottom: 2rem;
+  }
+  .title {
+    .btn {
+      border: none;
+      cursor: pointer;
+      color: blue;
+      font-weight: 500;
+      margin: 10px 0px 30px 0px;
+      &:visited {
+        border: none;
+      }
+    }
+    .expand {
+      margin: 30px 0px;
+    }
+  }
+  .poster {
+    position: relative;
+    height: 300px;
+    img {
+      width: 100%;
+      position: relative;
+      height: 100%;
+      background-size: 100% 100%;
+      object-fit: initial;
+    }
+    margin-bottom: 2rem;
+    .letter {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      right:50px;
+      background-color: rgba(255, 190, 15, 0.8);
+      padding: 0.5rem;
+      p{
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}

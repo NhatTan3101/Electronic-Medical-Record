@@ -209,7 +209,9 @@ export default function Navbar() {
               marginRight: 3,
             }}
           >
-            <Link to="/" className={classes.linkToPage}>EMRS</Link>
+            <Link to="/" className={classes.linkToPage}>
+              EMRS
+            </Link>
           </Typography>
           {user?.role === "doctor" && (
             <Popover
@@ -230,26 +232,26 @@ export default function Navbar() {
               )}
               content={
                 <div className={classes.popover}>
-                  {searchedUsers?.length 
-                  ?<>
-                  {searchedUsers.map((searchedUser, index) => (
-                    <Link
-                      key={index}
-                      to={`/history/${searchedUser?.userId}/${searchedUser?.medical_record?.recordId}`}
-                      className={classes.linkToPage}
-                      onClick={() => setKeyword(!keyword)}
-                    >
-                      <AvatarItem
-                        key={index}
-                        name={searchedUser?.name}
-                        code={searchedUser?.mabhyt}
-                      />
-                    </Link>
-                  ))}
-                  </>
-                   : <div style={{width:'200px', backgroundColor:'red'}}>gjfabjbajsbj</div>
-                   }
-                  
+                  {searchedUsers?.length ? (
+                    <div className={classes.hasResult}>
+                      {searchedUsers.map((searchedUser, index) => (
+                        <Link
+                          key={index}
+                          to={`/history/${searchedUser?.userId}/${searchedUser?.medical_record?.recordId}`}
+                          className={classes.linkToPage}
+                          onClick={() => setKeyword(!keyword)}
+                        >
+                          <AvatarItem
+                            key={index}
+                            name={searchedUser?.name}
+                            code={searchedUser?.mabhyt}
+                          />
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className={classes.noResult}>No options</div>
+                  )}
                 </div>
               }
             />
@@ -258,7 +260,7 @@ export default function Navbar() {
             sx={{
               flexGrow: 1,
               pr: 20,
-              textAlign: "right",
+              textAlign: "center",
             }}
           >
             <Link to="/" className={classes.linkToPage}>
@@ -288,7 +290,7 @@ export default function Navbar() {
                   to="/schedule-calendar/patient"
                   className={classes.linkToPage}
                 >
-                  Schedule Appointment
+                  Schedule
                 </Link>
               </>
             ) : (
@@ -300,7 +302,7 @@ export default function Navbar() {
                   to="/schedule-calendar/doctor"
                   className={classes.linkToPage}
                 >
-                  Schedule Appointment
+                  Schedule
                 </Link>
               </>
             )}

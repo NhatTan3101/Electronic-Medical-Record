@@ -23,11 +23,11 @@ const MedicalHistory = () => {
     if (authenticatedUser) setUser(authenticatedUser);
     axios.get(`/medical-records/${userId}`).then((response) => {
       setRecords(response?.data?.result?.records || []);
-      setPatient(response?.data?.result?.user)
+      setPatient(response?.data?.result?.user);
     });
   }, [userId, recordId]);
 
-  console.log('test', { userId, recordId });
+  console.log("test", { userId, recordId });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,12 +40,23 @@ const MedicalHistory = () => {
   const handleAddRecord = (record) => {
     setRecords([...records, record]);
   };
+  const getAge = (birthday) => {
+    const today = new Date();
+    const birthDate = new Date(birthday);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    return age;
+  };
 
   return (
     <div className={classes.container}>
       <div className={classes.record}>
-        <h1>Medical History</h1>
-        <h1>{patient?.name}</h1>
+        <h1>Patient Information</h1>
+        <div className={classes.patientInfor}>
+          <Typography>Patient name: {patient?.name}</Typography>
+          <Typography>Health insurance code : {patient?.mabhyt}</Typography>
+          <Typography>Gender : {patient?.gender}</Typography>
+          <Typography>Age : {getAge(patient?.birthday)}</Typography>
+        </div>
         {user?.role === "doctor" && (
           <div className={classes.createRecord}>
             <ButtonInfor variant="contained" onClick={handleClickOpen}>
@@ -63,31 +74,34 @@ const MedicalHistory = () => {
         {records?.length === 0 ? (
           <Typography>There has been no medical record yet.</Typography>
         ) : (
-          records.map((record, index) => (
-            <Accordion key={index}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>{record?.medicalExamDay}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <MedicalRecord
-                  diagnoseDisease={record?.diagnoseDisease}
-                  symptom={record?.symptom}
-                  treatment={record?.treatment}
-                  doctor={record?.doctor}
-                  emailDoctor={record?.emailDoctor}
-                  medicalExamDay={record?.medicalExamDay}
-                  pill={record?.pill}
-                  quantity={record?.quantity}
-                  timeperday={record?.timeperday}
-                  dayofsurgery={record?.dayofsurgery}
-                />
-              </AccordionDetails>
-            </Accordion>
-          ))
+          <>
+            <h1>Medical History</h1>
+            {records.map((record, index) => (
+              <Accordion key={index}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>{record?.medicalExamDay}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <MedicalRecord
+                    diagnoseDisease={record?.diagnoseDisease}
+                    symptom={record?.symptom}
+                    treatment={record?.treatment}
+                    doctor={record?.doctor}
+                    emailDoctor={record?.emailDoctor}
+                    medicalExamDay={record?.medicalExamDay}
+                    pill={record?.pill}
+                    quantity={record?.quantity}
+                    timeperday={record?.timeperday}
+                    dayofsurgery={record?.dayofsurgery}
+                  />
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </>
         )}
       </div>
     </div>

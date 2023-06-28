@@ -19,6 +19,7 @@ export default class MedicalRecordController {
         timeperday,
         dayofsurgery,
         note,
+        medicalExamDay
       } = req.body;
 
       const { userId, recordId } = req.params;
@@ -32,7 +33,8 @@ export default class MedicalRecordController {
         quantity,
         timeperday,
         dayofsurgery,
-        note
+        note,
+        medicalExamDay
       };
 
       // try {

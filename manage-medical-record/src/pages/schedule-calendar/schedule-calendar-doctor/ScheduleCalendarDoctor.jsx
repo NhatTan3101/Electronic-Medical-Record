@@ -48,6 +48,7 @@ export const ScheduleCalendarDoctor = () => {
       };
       setEvents([...events, newEvent]);
     });
+    handleClose();
   };
 
   const handleSearch = async (event) => {

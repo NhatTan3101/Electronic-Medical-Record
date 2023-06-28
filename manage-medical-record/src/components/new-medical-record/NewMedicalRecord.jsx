@@ -33,6 +33,7 @@ export default function NewMedicalRecord(props) {
     symptom: Yup.string().required("Required"),
     treatment: Yup.string().required("Required"),
     emailDoctor: Yup.string().email().required("Required"),
+    medicalExamDay: Yup.string().required("Required"),
   });
 
   return (
@@ -49,6 +50,7 @@ export default function NewMedicalRecord(props) {
           timeperday: "",
           dayofsurgery: "",
           note: "",
+          medicalExamDay: "",
         }}
         validationSchema={MedicalSchema}
         onSubmit={createMedicalRecord}
@@ -167,6 +169,20 @@ export default function NewMedicalRecord(props) {
               value={values.emailDoctor}
               error={!!errors.emailDoctor}
               helperText={errors.emailDoctor}
+            />
+            <Input
+              type="date"
+              name="medicalExamDay"
+              label="Medical Examination Day"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              fullWidth="true"
+              value={values.medicalExamDay}
+              error={!!errors.medicalExamDay}
+              helperText={errors.medicalExamDay}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <div className={classes.buttonInfor}>
               <ButtonInfor

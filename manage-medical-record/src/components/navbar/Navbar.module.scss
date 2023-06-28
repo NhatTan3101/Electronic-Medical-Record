@@ -1,16 +1,26 @@
-.linkToPage{
-    color: #fff;
-    font-weight: 500;
-    padding: 0px 15px;
+.linkToPage {
+  color: #fff;
+  font-weight: 500;
+  padding: 0px 15px;
+  text-decoration: none;
+  &:focus {
+    color: black;
+  }
+  &:hover {
     text-decoration: none;
-    &:focus{
-        color: black;
-    }
-    &:hover{
-        text-decoration: none;
-    }
+  }
 }
 .popover {
+  .hasResult {
     height: 250px;
     overflow: auto;
+  }
+  .noResult {
+    height: 50px;
+    padding-left: 20px;
+    align-items: center;
+    display: flex;
+    color: #a3a3a3;
+
+  }
 }
