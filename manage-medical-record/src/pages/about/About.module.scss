@@ -41,12 +41,29 @@
       position: absolute;
       bottom: 20px;
       left: 10px;
-      right:50px;
+      right: 50px;
       background-color: rgba(255, 190, 15, 0.8);
       padding: 0.5rem;
-      p{
+      p {
         margin-bottom: 0 !important;
       }
+    }
+  }
+  .element {
+    margin: 40px 0px;
+    h2 {
+      color: #00509d;
+      font-weight: 300;
+      text-align: center;
+    }
+  }
+  .imageProof{
+    display: flex;
+    justify-content: space-around;
+    img{
+      max-height: 300px;
+      max-width: 100%;
+      vertical-align: middle;
     }
   }
 }

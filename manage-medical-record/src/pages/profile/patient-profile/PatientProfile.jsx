@@ -1,6 +1,9 @@
 import {
   Alert,
   Box,
+  Button,
+  Dialog,
+  DialogTitle,
   Divider,
   MenuItem,
   Slide,
@@ -15,16 +18,19 @@ import Input from "../../../common/input/Input";
 import InputSelect from "../../../common/inputselect/InputSelect";
 import axios from "../../../services/axios/axios.service";
 import classes from "./PatientProfile.module.scss";
+import UserAvatar from "../../../components/avatars/UserAvatar/UserAvatar.avatar";
 
 const TransitionRight = (props) => {
   return <Slide {...props} direction="right" />;
 };
 
 const PatientProfile = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [transition, setTransition] = useState(undefined);
+  const [src, setSrc] = useState("");
 
   const handleClick = (Transition) => () => {
     setTransition(() => Transition);
@@ -44,11 +50,29 @@ const PatientProfile = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       await axios.put(`/user/patient/${user?.userId}`, values);
-      localStorage.setItem('user', {...user, ...values });
+      localStorage.setItem("user", { ...user, ...values });
       setMessage("Update success!");
     } catch (error) {
       setMessage(error);
     }
+  };
+
+  const upload = () => {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        const data = new FormData();
+        data.append("file", reader.result);
+        axios.put(`/user/${user?.userId}/avatar`, data).then((response) => {
+          //
+        });
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open("GET", src);
+    xhr.responseType = "blob";
+    xhr.send();
   };
 
   const checkChanges = (values) => {
@@ -99,6 +123,55 @@ const PatientProfile = () => {
             <div className={classes.fieldName}>Role</div>
             <span>: {user?.role}</span>
           </div>
+          <Button
+            onClick={() => setIsOpen(true)}
+            color="primary"
+            variant="contained"
+            component="span"
+          >
+            Upload Avatar
+          </Button>
+          <Dialog onClose={() => setIsOpen(false)} open={isOpen}>
+            <DialogTitle sx={{ pl: "50px" }}>File Upload</DialogTitle>
+            <Box sx={{ width: 400 }} display="grid" justifyContent="center">
+              <Box mb={2} display="flex" justifyContent="center">
+                <UserAvatar src={src} sx={{ width: 120, height: 120 }}>
+                  {user?.name}
+                </UserAvatar>
+              </Box>
+              {!src ? (
+                <label htmlFor="upload-photo">
+                  <input
+                    style={{ display: "none" }}
+                    id="upload-photo"
+                    name="upload-photo"
+                    type="file"
+                    onChange={(e) => {
+                      const data = new FormData();
+                      data.append('file', e.target.files[0]);
+                      axios
+                        .put(`/user/${user?.userId}/avatar`, data)
+                        .then(() => {
+                          //
+                        });
+                    }}
+                  />
+                  <Button color="primary" variant="contained" component="span">
+                    Choose Image
+                  </Button>
+                </label>
+              ) : (
+                <Button
+                  onClick={upload}
+                  color="primary"
+                  variant="contained"
+                  component="span"
+                >
+                  Upload Image
+                </Button>
+              )}
+            </Box>
+          </Dialog>
         </div>
         <div className={classes.formProfile}>
           <h1>Update Profile</h1>
@@ -125,6 +198,7 @@ const PatientProfile = () => {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
+                isValid,
               }) => (
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <Stack direction="row" spacing={3}>
@@ -267,7 +341,7 @@ const PatientProfile = () => {
                     <ButtonInfor
                       type="submit"
                       variant="outlined"
-                      disabled={!checkChanges(values) || isSubmitting}
+                      disabled={!isValid}
                       onClick={handleClick(TransitionRight)}
                     >
                       Update
@@ -281,10 +355,7 @@ const PatientProfile = () => {
                       key={transition ? transition.name : ""}
                       autoHideDuration={4000}
                     >
-                      <Alert
-                        onClose={handleClose}
-                        sx={{ width: "100%" }}
-                      >
+                      <Alert onClose={handleClose} sx={{ width: "100%" }}>
                         {message}
                       </Alert>
                     </Snackbar>

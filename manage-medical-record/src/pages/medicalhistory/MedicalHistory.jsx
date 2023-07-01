@@ -4,7 +4,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import NewMedicalRecord from "../../components/new-medical-record/NewMedicalRecord";
+import CreateMedicalRecord from "../../components/create-medical-record/CreateMedicalRecord";
 import classes from "./MedicalHistory.module.scss";
 import ButtonInfor from "../../common/button/ButtonInfor";
 import MedicalRecord from "../../components/medical-record/MedicalRecord";
@@ -26,8 +26,6 @@ const MedicalHistory = () => {
       setPatient(response?.data?.result?.user);
     });
   }, [userId, recordId]);
-
-  console.log("test", { userId, recordId });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,14 +55,12 @@ const MedicalHistory = () => {
           <Typography>Gender : {patient?.gender}</Typography>
           <Typography>Age : {getAge(patient?.birthday)}</Typography>
         </div>
-        {user?.role === "doctor" && (
-          <div className={classes.createRecord}>
-            <ButtonInfor variant="contained" onClick={handleClickOpen}>
-              New Medical Record
-            </ButtonInfor>
-          </div>
-        )}
-        <NewMedicalRecord
+        <div className={classes.createRecord}>
+          <ButtonInfor variant="contained" onClick={handleClickOpen}>
+            Create Medical Record
+          </ButtonInfor>
+        </div>
+        <CreateMedicalRecord
           open={open}
           handleAddRecord={handleAddRecord}
           onClose={handleClose}
@@ -72,7 +68,9 @@ const MedicalHistory = () => {
           recordId={recordId}
         />
         {records?.length === 0 ? (
-          <Typography>There has been no medical record yet.</Typography>
+          <>
+            <Typography>There has been no medical record yet.</Typography>
+          </>
         ) : (
           <>
             <h1>Medical History</h1>

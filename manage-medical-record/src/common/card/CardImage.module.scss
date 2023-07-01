@@ -1,0 +1,31 @@
+.container {
+  border-radius: 20px;
+  margin: 1.5rem !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  &:hover{
+    background-color: #ced4da;
+  }
+  img {
+    width: 64px;
+    display: flex;
+    align-content: center;
+    margin: 0 auto;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+  }
+  .body {
+    flex: auto;
+    padding: 1rem;
+    h4 {
+      text-align: center !important;
+    }
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

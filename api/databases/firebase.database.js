@@ -1,6 +1,7 @@
 import firebaseAdmin from 'firebase-admin';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, signInWithCustomToken } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, } from 'firebase/storage';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import  JWT  from 'jsonwebtoken';
 import { FIREBASE_ADMIN_CONFIG, FIREBASE_APP_CONFIG, FIREBASE_DATABASE_URL } from '../constants/firebase.constant.js';
 
@@ -8,11 +9,14 @@ import { FIREBASE_ADMIN_CONFIG, FIREBASE_APP_CONFIG, FIREBASE_DATABASE_URL } fro
 export const admin = firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(FIREBASE_ADMIN_CONFIG),
     databaseURL: FIREBASE_DATABASE_URL,
+    storageBucket: "gs://netflix-modify.appspot.com/"
 });
 
 export const app = initializeApp(FIREBASE_APP_CONFIG);
 
 export const auth = getAuth(app);
+
+export const upload = (blob) => uploadBytes(ref(getStorage(app), 'avatars'), blob);
 
 export const signIn = async (email, password) => {
     const data = await signInWithEmailAndPassword(auth, email, password);

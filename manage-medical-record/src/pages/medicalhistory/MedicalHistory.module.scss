@@ -4,12 +4,16 @@
   min-height: 100%;
   .record {
     height: 100%;
+    min-height: 500px;
     max-width: 70%;
     margin: auto;
     background-color: #fff;
     padding: 20px 40px;
     box-shadow: rgba(7, 7, 53, 0.25) 0px 2px 5px -1px,
       rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      .patientInfor{
+        padding-left: 20px;
+      }
       .createRecord{
         display: flex;
         justify-content: space-around;

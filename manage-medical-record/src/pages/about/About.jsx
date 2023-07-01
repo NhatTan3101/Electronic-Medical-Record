@@ -13,6 +13,9 @@ import {
   VisitDoctor2,
 } from "../../components/images";
 import { Grid, Stack } from "@mui/material";
+import data from "../../data";
+import Card from "../../common/card/CardImage";
+import CardImage from "../../common/card/CardImage";
 
 const About = () => {
   const [isExpand, setIsExpand] = useState(false);
@@ -86,9 +89,7 @@ const About = () => {
             </div>
           </Slider>
           <div className={classes.title}>
-            <h3 className="display-5 font-weight-bold">
-              Electronic Medical Record Systems
-            </h3>
+            <h3 className="display-5 ">Electronic Medical Record Systems</h3>
             <h5>{`What is an EMR System?`}</h5>
             <p className="my-3">
               {`EMR, or electronic medical records, are
@@ -205,246 +206,70 @@ const About = () => {
               </Grid>
             </Grid>
           </div>
-        </div>
-        <main role="main" className="container">
-          <div className="row">
-            <div className="col-md-8 blog-main">
-              <h3 className="pb-3 mb-4 font-italic border-bottom">
-                From the Firehose
-              </h3>
-              <div className="blog-post">
-                <h2 className="blog-post-title">Sample blog post</h2>
-                <p className="blog-post-meta">
-                  January 1, 2014 by <a href="#">Mark</a>
-                </p>
-                <p>
-                  This blog post shows a few different types of content
-                  that&apos;s supported and styled with Bootstrap. Basic
-                  typography, images, and code are all supported.
-                </p>
-                <hr />
-                <p>
-                  Cum sociis natoque penatibus et magnis{" "}
-                  <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
-                  Aenean eu leo quam. Pellentesque ornare sem lacinia quam
-                  venenatis vestibulum. Sed posuere consectetur est at lobortis.
-                  Cras mattis consectetur purus sit amet fermentum.
-                </p>
-                <blockquote>
-                  <p>
-                    Curabitur blandit tempus porttitor.{" "}
-                    <strong>Nullam quis risus eget urna mollis</strong> ornare
-                    vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id
-                    elit.
-                  </p>
-                </blockquote>
-                <p>
-                  Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras
-                  mattis consectetur purus sit amet fermentum. Aenean lacinia
-                  bibendum nulla sed consectetur.
-                </p>
-                <h2>Heading</h2>
-                <p>
-                  Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                  auctor. Duis mollis, est non commodo luctus, nisi erat
-                  porttitor ligula, eget lacinia odio sem nec elit. Morbi leo
-                  risus, porta ac consectetur ac, vestibulum at eros.
-                </p>
-                <h3>Sub-heading</h3>
-                <p>
-                  Cum sociis natoque penatibus et magnis dis parturient montes,
-                  nascetur ridiculus mus.
-                </p>
-                <pre>
-                  <code>Example code block</code>
-                </pre>
-                <p>
-                  Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem
-                  malesuada magna mollis euismod. Fusce dapibus, tellus ac
-                  cursus commodo, tortor mauris condimentum nibh, ut fermentum
-                  massa.
-                </p>
-                <h3>Sub-heading</h3>
-                <p>
-                  Cum sociis natoque penatibus et magnis dis parturient montes,
-                  nascetur ridiculus mus. Aenean lacinia bibendum nulla sed
-                  consectetur. Etiam porta sem malesuada magna mollis euismod.
-                  Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                  condimentum nibh, ut fermentum massa justo sit amet risus.
-                </p>
-                <ul>
-                  <li>
-                    Praesent commodo cursus magna, vel scelerisque nisl
-                    consectetur et.
-                  </li>
-                  <li>Donec id elit non mi porta gravida at eget metus.</li>
-                  <li>Nulla vitae elit libero, a pharetra augue.</li>
-                </ul>
-                <p>
-                  Donec ullamcorper nulla non metus auctor fringilla. Nulla
-                  vitae elit libero, a pharetra augue.
-                </p>
-                <ol>
-                  <li>Vestibulum id ligula porta felis euismod semper.</li>
-                  <li>
-                    Cum sociis natoque penatibus et magnis dis parturient
-                    montes, nascetur ridiculus mus.
-                  </li>
-                  <li>
-                    Maecenas sed diam eget risus varius blandit sit amet non
-                    magna.
-                  </li>
-                </ol>
-                <p>
-                  Cras mattis consectetur purus sit amet fermentum. Sed posuere
-                  consectetur est at lobortis.
-                </p>
-              </div>
-              {/* /.blog-post */}
-              <div className="blog-post">
-                <h2 className="blog-post-title">Another blog post</h2>
-                <p className="blog-post-meta">
-                  December 23, 2013 by <a href="#">Jacob</a>
-                </p>
-                <p>
-                  Cum sociis natoque penatibus et magnis{" "}
-                  <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
-                  Aenean eu leo quam. Pellentesque ornare sem lacinia quam
-                  venenatis vestibulum. Sed posuere consectetur est at lobortis.
-                  Cras mattis consectetur purus sit amet fermentum.
-                </p>
-                <blockquote>
-                  <p>
-                    Curabitur blandit tempus porttitor.{" "}
-                    <strong>Nullam quis risus eget urna mollis</strong> ornare
-                    vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id
-                    elit.
-                  </p>
-                </blockquote>
-                <p>
-                  Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras
-                  mattis consectetur purus sit amet fermentum. Aenean lacinia
-                  bibendum nulla sed consectetur.
-                </p>
-                <p>
-                  Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                  auctor. Duis mollis, est non commodo luctus, nisi erat
-                  porttitor ligula, eget lacinia odio sem nec elit. Morbi leo
-                  risus, porta ac consectetur ac, vestibulum at eros.
-                </p>
-              </div>
-              {/* /.blog-post */}
-              <div className="blog-post">
-                <h2 className="blog-post-title">New feature</h2>
-                <p className="blog-post-meta">
-                  December 14, 2013 by <a href="#">Chris</a>
-                </p>
-                <p>
-                  Cum sociis natoque penatibus et magnis dis parturient montes,
-                  nascetur ridiculus mus. Aenean lacinia bibendum nulla sed
-                  consectetur. Etiam porta sem malesuada magna mollis euismod.
-                  Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                  condimentum nibh, ut fermentum massa justo sit amet risus.
-                </p>
-                <ul>
-                  <li>
-                    Praesent commodo cursus magna, vel scelerisque nisl
-                    consectetur et.
-                  </li>
-                  <li>Donec id elit non mi porta gravida at eget metus.</li>
-                  <li>Nulla vitae elit libero, a pharetra augue.</li>
-                </ul>
-                <p>
-                  Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras
-                  mattis consectetur purus sit amet fermentum. Aenean lacinia
-                  bibendum nulla sed consectetur.
-                </p>
-                <p>
-                  Donec ullamcorper nulla non metus auctor fringilla. Nulla
-                  vitae elit libero, a pharetra augue.
-                </p>
-              </div>
-              {/* /.blog-post */}
-              <nav className="blog-pagination">
-                <a className="btn btn-outline-primary" href="#">
-                  Older
-                </a>
-                <a className="btn btn-outline-secondary disabled" href="#">
-                  Newer
-                </a>
-              </nav>
-            </div>
-            {/* /.blog-main */}
-            <aside className="col-md-4 blog-sidebar">
-              <div className="p-3 mb-3 bg-light rounded">
-                <h4 className="font-italic">About</h4>
-                <p className="mb-0">
-                  Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras
-                  mattis consectetur purus sit amet fermentum. Aenean lacinia
-                  bibendum nulla sed consectetur.
-                </p>
-              </div>
-              <div className="p-3">
-                <h4 className="font-italic">Archives</h4>
-                <ol className="list-unstyled mb-0">
-                  <li>
-                    <a href="#">March 2014</a>
-                  </li>
-                  <li>
-                    <a href="#">February 2014</a>
-                  </li>
-                  <li>
-                    <a href="#">January 2014</a>
-                  </li>
-                  <li>
-                    <a href="#">December 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">November 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">October 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">September 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">August 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">July 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">June 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">May 2013</a>
-                  </li>
-                  <li>
-                    <a href="#">April 2013</a>
-                  </li>
-                </ol>
-              </div>
-              <div className="p-3">
-                <h4 className="font-italic">Elsewhere</h4>
-                <ol className="list-unstyled">
-                  <li>
-                    <a href="#">GitHub</a>
-                  </li>
-                  <li>
-                    <a href="#">Twitter</a>
-                  </li>
-                  <li>
-                    <a href="#">Facebook</a>
-                  </li>
-                </ol>
-              </div>
-            </aside>
-            {/* /.blog-sidebar */}
+          <div className={classes.element}>
+            <h2>Fully Open-Source. Free Software, Always and Forever.</h2>
+            <p>
+              {`EMRS is the most popular open source electronic health records
+              and medical practice management solution. OpenEMR's goal is a
+              superior alternative to its proprietary counterparts with
+              passionate volunteers and contributors dedicated to guarding
+              OpenEMR's status as a free, open source software solution for
+              medical practices with a commitment to openness, kindness and
+              cooperation.`}
+            </p>
           </div>
-          {/* /.row */}
-        </main>
-        {/* /.container */}
+          <div className={classes.element}>
+            <h2>ONC 2015 Cures Update Certified!</h2>
+            <p>
+              {`EMRS is ONC 2015 Cures Update Certified! More details on how
+              the EMRS community completed this feat can be found on our blog
+              article. The ONC 2015 Certification Transparency and Disclosure
+              Requirements for EMRS can be viewed here. Additional costs may
+              apply and the additional costs disclosure can be viewed here.`}
+            </p>
+          </div>
+          <Grid container spacing={2}>
+            <Grid item sm={12} md={6} xl={6}>
+              <img
+                style={{ maxHeight: "300px", maxWidth: "100%" }}
+                src="https://www.open-emr.org/img/ONC_Certification_HIT_2015Edition_CU_Stacked_RGB.jpg"
+              />
+            </Grid>
+            <Grid item sm={12} md={6} xl={6}>
+              <img
+                style={{ maxHeight: "300px", maxWidth: "100%" }}
+                src="https://www.open-emr.org/img/SLI_Certification_Mark_2017-01.png"
+              />
+            </Grid>
+          </Grid>
+          <img
+            style={{ maxHeight: "450px", width: "100%", objectFit: "cover" }}
+            src="https://www.open-emr.org/img/stethoscope.jpg"
+          />
+          <div className={classes.element}>
+            <h2>A feature-rich solution</h2>
+            <p>
+              {`Our vibrant community of volunteers and contributors have
+              maintained critical OpenEMR features for over a decade. With over
+              30 supported languages, many customizations, and full data
+              ownership, OpenEMR's features shine. On top of this, users in need
+              of support can take advantage of our volunteer support network as
+              well as over 30 vendors in over 10 countries.`}
+            </p>
+          </div>
+        </div>
+        {/* <Grid container spacing={2}>
+          {data.map((item, index) => (
+            <Grid item sm={12} md={3} xl={3}>
+              <CardImage
+                key={index}
+                img={item.img}
+                title={item.title}
+                content={item.content}
+              />
+            </Grid>
+          ))}
+        </Grid> */}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { createUser, database, generateAccessToken, signIn } from "../databases/firebase.database.js";
+import { upload, createUser, database, generateAccessToken, signIn } from "../databases/firebase.database.js";
 import Response from "../models/response.model.js";
 import UserModel from "../models/user.model.js";
 // import fabricAdmin from "../fabric/admin.fabric.js";
@@ -185,5 +185,14 @@ export default class UserController {
 
     // enroll to Fabric
     await fabricAdmin.enrollAdmin(organization, "admin")
+  }
+
+  static async uploadAvatar(req, res) {
+    try {
+      console.log('req?.file?.fileName', req?.file)
+      await upload(req?.file);
+    } catch (error) {
+      res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }))
+    }
   }
 }

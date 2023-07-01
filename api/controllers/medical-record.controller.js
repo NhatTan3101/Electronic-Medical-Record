@@ -1,7 +1,7 @@
 import { database } from "../databases/firebase.database.js";
 import Response from "../models/response.model.js";
 // import fabricDoctor from "../fabric/doctor.fabric.js";
-// import crypto from 'crypto';
+import crypto from 'crypto';
 import MedicalRecordModel from "../models/medical-record.model.js";
 import UserModel from "../models/user.model.js";
 
@@ -9,6 +9,7 @@ export default class MedicalRecordController {
   static async createRecord(req, res) {
     try {
       const medical = new MedicalRecordModel();
+      const user = new UserModel();
       const {
         diagnoseDisease,
         symptom,
@@ -36,30 +37,38 @@ export default class MedicalRecordController {
         note,
         medicalExamDay
       };
-
-      // try {
-      //   let hashtoBC = "";
-      //   await fabricDoctor.createRecord(recordId, hashtoBC, req.locals.userId);
-      // } catch (error) {
-      // }
-      // const recordInformation = await fabricDoctor.getRecord(recordId, req.locals.userId);
-      // const record = JSON.parse(recordInformation);
-
-      // let oldMedicalRecord = medical.getRecordByUserId(userId);
-      // let hash = crypto.createHash("sha256").update(JSON.stringify(oldMedicalRecord)).digest("sha256");
-      // if (record?.HashCode === "hash" || record?.HashCode === "") {
-
-        // // push new data to firebase
+      const isFirst = await user.hasExamined(userId);
+      if (!isFirst) {
+        console.log("lần đầu");
         await database.ref(`users/${userId}/medical_record/exams`).push(medicalRecord);
         res.status(200).json(medicalRecord);
+        const hash = medicalRecord?.diagnoseDisease.toString() + medicalRecord?.treatment.toString();
+        let hashBC = crypto.createHash("sha256").update(hash.toString()).digest("hex");
+        console.log("hashBC", hashBC);
 
-        // // get lại data từ firebase để hash
-        // let newMedicalRecord = medical.getRecordByUserId(userId);
-        // let hashtoBC1 = crypto.createHash("sha256").update(JSON.stringify(newMedicalRecord)).digest("sha256");
-        // // // add blockchain
+        // await fabricDoctor.createRecord(recordId, hashBC, req.locals.userId);
+      } else {
+        console.log("lần sau");
+        let oldMedicalRecord = await medical.getRecordByUserId(userId);
+        let hash = '';
+        for (const record of oldMedicalRecord) {
+          hash += record?.diagnoseDisease.toString() + record?.treatment.toString();
+        }
+        let hashBC = crypto.createHash("sha256").update(hash.toString()).digest("hex");
+        console.log("hashBC", hashBC);
+      }
+      // let hashFB = crypto.createHash("sha256").update(JSON.stringify(oldMedicalRecord)).digest("sha256");
+      //  if (record?.HashCode === hashFB ) {
+      // await database.ref(`users/${userId}/medical_record/exams`).push(medicalRecord);
+      // res.status(200).json(medicalRecord);
+      // get lại data từ firebase để hash
+      // let newMedicalRecord = medical.getRecordByUserId(userId);
+      // let hashBC = crypto.createHash("sha256").update(JSON.stringify(newMedicalRecord)).digest("sha256");
+      // add blockchain
+      // await fabricDoctor.updateRecord(recordId, hashtoBC, req.locals.userId);  
+      // }
+      // }
 
-        // await fabricDoctor.updateRecord(recordId, hashtoBC1, req.locals.userId);
-    // }
     } catch (error) {
       res.status(500).json(new Response(102, "error", { isSuccessfull: false }));
     }

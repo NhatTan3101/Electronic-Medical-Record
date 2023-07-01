@@ -5,6 +5,11 @@ export default class UserModel {
     this.ref = database.ref("users");
   }
 
+  async hasExamined(userId) {
+    const data = await this.ref.child(userId).child('medical_record').child('exams').once("value");
+    return !!data.val();
+  }
+
   async findUser(userId) {
     /** Get all users from firebase */
     const data = await this.ref.child(userId).once("value");

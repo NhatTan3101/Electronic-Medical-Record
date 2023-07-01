@@ -23,25 +23,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log("Back to school");
 });
-
-// let req = {
-//   headers: {
-//     auth: 33
-//   },
-//   local: {
-
-//   }
-// }
-
-// function auth(param) {
-//   param.local.user = 1;
-// }
-
-// function createRecord(param) {
-//   console.log('test', param.local.user)
-// }
-
-// // middleware 1
-// auth(req);
-// /// middleware 2
-// createRecord(req);

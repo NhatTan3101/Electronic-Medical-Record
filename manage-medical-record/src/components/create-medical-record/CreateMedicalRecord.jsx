@@ -9,7 +9,7 @@ import ButtonInfor from "../../common/button/ButtonInfor";
 import Input from "../../common/input/Input";
 import InputSelect from "../../common/inputselect/InputSelect";
 import axios from "../../services/axios/axios.service";
-import classes from "./NewMedicalRecord.module.scss";
+import classes from "./CreateMedicalRecord.module.scss";
 import TextArea from "../../common/text-area/TextArea";
 export default function NewMedicalRecord(props) {
   const { onClose, selectedValue, open, userId, recordId, handleAddRecord } =
