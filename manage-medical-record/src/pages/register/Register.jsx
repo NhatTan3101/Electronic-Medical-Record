@@ -29,7 +29,7 @@ const Register = () => {
       setMessage("Register success!");
     } catch (error) {
       setSeverity("error");
-      setMessage(error?.response?.data?.message || "Internal server !");
+      setMessage(error?.response?.data?.message || error?.message || "Internal server !");
     }
   };
   const handleClick = () => {

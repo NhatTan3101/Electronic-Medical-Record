@@ -24,6 +24,7 @@ export default function NewMedicalRecord(props) {
       handleAddRecord(values);
       await axios.post(`/medical-records/${userId}/${recordId}`, values);
     } catch (error) {
+      // setMessage(error?.response?.data?.message)
       console.log(error);
     }
   };
@@ -190,7 +191,7 @@ export default function NewMedicalRecord(props) {
                 disabled={isSubmitting}
                 onClick={handleClose}
               >
-                Create an account
+                Create record
               </ButtonInfor>
             </div>
           </form>

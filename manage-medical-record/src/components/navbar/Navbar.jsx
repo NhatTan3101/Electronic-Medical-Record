@@ -318,7 +318,7 @@ export default function Navbar() {
               color="inherit"
             >
               {user ? (
-                <UserAvatar>{user?.name}</UserAvatar>
+                <UserAvatar src={user?.avatar}>{user?.name}</UserAvatar>
               ) : (
                 <Avatar src="/broken-image.jpg" />
               )}

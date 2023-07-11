@@ -36,7 +36,9 @@ function stringAvatar(name, sx) {
 export default function UserAvatar(props) {
   const { children, sx, src } = props;
 
-  if (src) return <Avatar sx={sx} src={src} />;
+  const url = `https://firebasestorage.googleapis.com/v0/b/netflix-modify.appspot.com/o/${encodeURIComponent(src)}?alt=media`;
+  
+  if (src) return <Avatar sx={sx} src={url} />;
 
   if (children?.length) return <Avatar {...stringAvatar(children, sx)} />;
 

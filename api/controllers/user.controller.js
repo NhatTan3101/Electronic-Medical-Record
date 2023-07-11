@@ -1,4 +1,4 @@
-import { upload, createUser, database, generateAccessToken, signIn } from "../databases/firebase.database.js";
+import { upload, createUser, database, generateAccessToken, signIn, deleteFile } from "../databases/firebase.database.js";
 import Response from "../models/response.model.js";
 import UserModel from "../models/user.model.js";
 // import fabricAdmin from "../fabric/admin.fabric.js";
@@ -35,6 +35,7 @@ export default class UserController {
           birthday: result?.birthday,
           hometown: result?.hometown,
           nation: result?.nation,
+          avatar: result?.avatar,
         },
       });
     } catch (error) {
@@ -189,8 +190,14 @@ export default class UserController {
 
   static async uploadAvatar(req, res) {
     try {
-      console.log('req?.file?.fileName', req?.file)
-      await upload(req?.file);
+      const name = generateId();
+      await upload(req?.file?.buffer, `avatars/${name}.png`, { contentType: 'image/png' });
+      await database.ref('users').child(req.params.userId).update({
+        avatar: `avatars/${name}.png`
+      });
+      console.log('req?.file?.fileName', req?.body);
+      await deleteFile(req?.body?.oldAvatar);
+      res.status(200).json(new Response(102, "Successfully !", { isSuccessfull: true, avatar: `avatars/${name}.png` }));
     } catch (error) {
       res.status(500).json(new Response(102, error?.message || "Internal server !", { isSuccessfull: false }))
     }

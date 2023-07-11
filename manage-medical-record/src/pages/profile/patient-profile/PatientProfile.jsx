@@ -50,7 +50,7 @@ const PatientProfile = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       await axios.put(`/user/patient/${user?.userId}`, values);
-      localStorage.setItem("user", { ...user, ...values });
+      localStorage.setItem("user", JSON.stringify({ ...user, ...values }));
       setMessage("Update success!");
     } catch (error) {
       setMessage(error);
@@ -91,17 +91,20 @@ const PatientProfile = () => {
   const UpdateSchema = Yup.object().shape({
     mabhyt: Yup.string()
       .max(16, "Health insurance code syntax has 16 characters")
-      .min(16, "Health insurance code syntax has 16 characters"),
+      .min(16, "Health insurance code syntax has 16 characters")
+      .required("Required"),
     phonenumber: Yup.number()
       .typeError("That doesn't look like a phone number")
       .positive("A phone number can't start with a minus")
       .integer("A phone number can't include a decimal point")
-      .min(10),
+      .min(10)
+      .required("Required"),
     idcardno: Yup.number()
       .typeError("That doesn't look like a identity card number")
       .positive("A identity card number can't start with a minus")
       .integer("A identity card number can't include a decimal point")
-      .min(12),
+      .min(12)
+      .required("Required"),
   });
 
   return (
@@ -135,7 +138,7 @@ const PatientProfile = () => {
             <DialogTitle sx={{ pl: "50px" }}>File Upload</DialogTitle>
             <Box sx={{ width: 400 }} display="grid" justifyContent="center">
               <Box mb={2} display="flex" justifyContent="center">
-                <UserAvatar src={src} sx={{ width: 120, height: 120 }}>
+                <UserAvatar src={user?.avatar} sx={{ width: 120, height: 120 }}>
                   {user?.name}
                 </UserAvatar>
               </Box>
@@ -148,11 +151,13 @@ const PatientProfile = () => {
                     type="file"
                     onChange={(e) => {
                       const data = new FormData();
-                      data.append('file', e.target.files[0]);
+                      data.append("file", e.target.files[0]);
+                      data.append("oldAvatar", user?.avatar);
                       axios
                         .put(`/user/${user?.userId}/avatar`, data)
-                        .then(() => {
-                          //
+                        .then((response) => {
+                          setUser({...user, avatar: response.data?.result?.avatar });
+                          localStorage.setItem("user", JSON.stringify({ ...user, avatar: response.data?.result?.avatar }));
                         });
                     }}
                   />
